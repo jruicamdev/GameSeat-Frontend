@@ -1,0 +1,163 @@
+.homepage {
+    background-image: url('../../../assets/img/gaming-center.png');
+    width: 100vw;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: white;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 3em;
+    color: #E5E5E5;
+}
+
+.header p {
+    font-size: 1.5em;
+    color: #E5E5E5;
+}
+
+.header h2 {
+    font-size: 2em;
+    margin: 10px 0;
+}
+
+.header span {
+    display: block;
+    margin-bottom: 20px;
+}
+
+.cta-buttons .btn {
+    background-color: #0062cc;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+}
+
+.cta-buttons .btn:hover {
+    background-color: #004ba0;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.social-links a {
+    color: white;
+    font-size: 24px;
+    margin: 0 10px;
+}
+
+.social-links a:hover {
+    color: #76a9fa;
+}
+
+.mat-toolbar-row,
+.mat-toolbar-single-row {
+    display: flex !important;
+    justify-content: flex-end !important;
+}
+
+mat-toolbar {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+
+mat-toolbar>a,
+mat-toolbar>button {
+    background: transparent;
+    color: #ffffff;
+}
+
+/* Estilos para la sección de especificaciones */
+.specifications-section {
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    text-align: center;
+    padding: 50px 0;
+}
+
+.specifications-title {
+    font-size: 3rem;
+    margin-bottom: 30px;
+}
+
+.specifications-details {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.specification {
+    width: 30%;
+}
+
+.specification-icon {
+    width: 50px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.specification h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.specification ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+.specification ul li {
+    margin-bottom: 10px;
+}
+
+.services-section {
+    color: white;
+    text-align: center;
+    padding: 40px;
+}
+
+.services-header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.services-header p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+}
+
+.services-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.service {
+    background-color: #4b0082;
+    padding: 20px;
+    border-radius: 10px;
+    width: 200px;
+}
+
+.service-icon {
+    margin-bottom: 10px;
+}
+
+.service-details h2 {
+    font-size: 1.5em;
+    margin-bottom: 5px;
+}
+
+.service-price {
+    font-size: 2em;
+    font-weight: bold;
+    margin-top: 10px;
+}
