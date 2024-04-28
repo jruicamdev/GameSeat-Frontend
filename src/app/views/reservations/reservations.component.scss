@@ -1,0 +1,45 @@
+.venue-layout {
+    width: 90%;
+    margin: auto;
+    text-align: center;
+}
+
+.chair-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.chair-grid div {
+    padding: 10px;
+    border: 1px solid #ccc;
+    position: relative;
+}
+
+.chair-grid div.selected {
+    border-color: green;
+}
+
+img {
+    width: 100%;
+    height: auto;
+}
+
+.reservation-details {
+    margin-top: 20px;
+}
+
+form {
+    margin-top: 10px;
+}
+
+label {
+    margin-right: 10px;
+}
+
+input, button {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    display: block;
+}

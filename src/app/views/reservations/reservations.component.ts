@@ -27,4 +27,19 @@ export class ReservationsComponent {
     this.authService.logout();
     this.router.navigate(["/home"]);
   }
+
+    chairs = [
+        { number: 1, description: 'Chair 1', selected: false },
+        { number: 2, description: 'Chair 2', selected: false },
+        // Add more chairs as needed
+    ];
+
+    selectedChair = null;
+
+    selectChair(chair: any): void {
+        this.chairs.forEach(c => c.selected = false);
+        chair.selected = true;
+        this.selectedChair = chair;
+    }
+
 }
