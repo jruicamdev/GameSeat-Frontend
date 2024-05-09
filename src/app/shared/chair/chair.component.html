@@ -1,0 +1,8 @@
+<button (click)="selectChair()" style="background: none; border: none; padding: 0;">
+ <img src="../../../assets/img/gaming-chair-icon.png" alt="Silla vista de planta"
+    [ngClass]="{
+    'rotate-right': rotate,
+    'rotate-left': !rotate,
+    'isInactive': isActive=='maintenance'
+    }"/>
+</button>

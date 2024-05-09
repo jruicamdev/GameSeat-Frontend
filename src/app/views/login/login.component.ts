@@ -6,6 +6,8 @@ import { StorageService } from 'src/app/services/storage.service';
 import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
 import { HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { Token } from 'src/app/models/token';
+import { Observable, Observer } from 'rxjs';
 
 
 @Component({
@@ -40,21 +42,22 @@ export class LoginComponent {
     this.showLogin = !this.showLogin;
   }
 
-  login(): void {
-    this.authService.login(this.loginData.email, this.loginData.password).subscribe({
-      next: (data) => {
-        if(data == "password-incorrect"){
-          this._snackBar.open("Contraseña Incorrecta" ,"Cerrar");
-        }else{
-          this.storageService.saveToken(data.token);
-          this.storageService.saveUserDetails(data);
-          this.router.navigate(["/reservations"]);
-        }
+  login(user: { email: string; password: string }): Observable<Token>  {
+    return new Observable((observer: Observer<Token | any>) => {
 
-      },
-      error: (error) => {
-        console.error('Login failed:', error);
-      }
+      let credentials = `${user.email}:${user.password}`;
+
+      this.authService.login((credentials)).subscribe({
+        next: (user: Token) => {
+          this.storageService.saveToken(user.accessToken);
+          this.storageService.saveUserDetails(user);
+          this.router.navigate(["/reservations"]);
+          observer.next(user);
+        },
+        error: () => {
+          observer.next(null);
+        }
+      });
     });
   }
 

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "GameSeat-frontend": {
+    "gameseat-frontend": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -72,10 +72,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "GameSeat-frontend:build:production"
+              "buildTarget": "gameseat-frontend:build:production"
             },
             "development": {
-              "buildTarget": "GameSeat-frontend:build:development"
+              "buildTarget": "gameseat-frontend:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -83,7 +83,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "GameSeat-frontend:build"
+            "buildTarget": "gameseat-frontend:build"
           }
         },
         "test": {

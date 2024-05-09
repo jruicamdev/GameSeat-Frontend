@@ -1,0 +1,36 @@
+.table-container {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    height: 100%; /* Asegúrate de que el contenedor tiene una altura establecida */
+    width: 100%;
+}
+
+.table {
+    width: 50%;
+    background-color: black;
+    height: 100%;
+    display: flex; /* Usa Flexbox para organizar los hijos */
+    justify-content: space-between; /* Separa los grupos de sillas */
+    position: relative; /* Necesario para posicionar absolutamente las sillas */
+}
+
+.leftSide, .rightSide {
+    display: flex;
+    flex-direction: column; /* Alinea las sillas en columna */
+    position: absolute; /* Posiciona las sillas fuera del div de la mesa */
+    width: 100px; /* Ancho del área de las sillas */
+}
+
+.leftSide {
+    left: -70px; /* Desplaza las sillas a la izquierda del div negro */
+    transform: rotateY(0deg); /* Rota las sillas hacia la mesa */
+    align-items: flex-end; /* Alinea las sillas hacia el borde exterior */
+}
+
+.rightSide {
+    right: -70px; /* Desplaza las sillas a la derecha del div negro */
+    transform: rotateY(180deg); /* Rota las sillas hacia la mesa */
+    align-items: flex-start; /* Alinea las sillas hacia el borde exterior */
+}
+

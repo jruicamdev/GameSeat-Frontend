@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject, throwError } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, BehaviorSubject, throwError, Observer, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment.development';
+import { Token } from '../models/token';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class AuthService {
   public currentUser: Observable<any>;
 
   constructor(private http: HttpClient) {
-    const storedUser = localStorage.getItem('currentUser');
+    const storedUser = localStorage.getItem('user');
     this.currentUserSubject = new BehaviorSubject<any>(storedUser ? "" : null);
     this.currentUser = this.currentUserSubject.asObservable();
   }
@@ -22,30 +23,53 @@ export class AuthService {
     return this.currentUserSubject.value;
   }
 
-  login(username: string, password: string): Observable<any> {
-    return this.http.post<any>(environment.api_url + "users/login", { username, password })
-      .pipe(map(response => {
-        const token  = response.tokenString;
-        if(token == ""){
-          return "password-incorrect";
-        }else{
-          localStorage.setItem('currentUser', JSON.stringify(token));
-          this.currentUserSubject.next(token);
-          return token;
-        }
+  login(codedUser: string): Observable<any> {
+    return this.http.post(`${environment.api_url}users/login`, null, {
+      headers: new HttpHeaders({
+        Authorization: `Basic ${codedUser}`,
+        NO_HTTP_INTERCEPTOR: "true"
       }),
-        catchError(error => {
-          return throwError(error);
-        })
-      );
+    });
+  }
+
+  isValidToken(): Observable<boolean> {
+    return this.http.get<boolean>(`${environment.api_url}token/valid`);
   }
 
   register(username: string, email: string, password: string): Observable<any> {
     return this.http.post<any>(environment.api_url+ "users/register", { username, email, password });
   }
 
+  isAuthenticated(): Observable<boolean> {
+
+    const userString = localStorage.getItem("user");
+    const user: Token = userString ? JSON.parse(userString) : "";
+
+    if (user) {
+      return new Observable((observer: Observer<boolean>) => {
+        this.isValidToken().subscribe({
+          next: (isValid: boolean) => {
+            if (!isValid) {
+              this.logout();
+            }
+            else {
+              observer.next(true);
+            }
+          },
+          error: () => {
+            this.logout();
+            observer.next(false);
+          }
+        });
+      });
+    } else {
+      this.logout();
+      return of(false);
+    }
+  }
+
   logout(): void {
-    localStorage.removeItem('currentUser');
+    localStorage.removeItem('user');
     this.currentUserSubject.next(null);
   }
 }

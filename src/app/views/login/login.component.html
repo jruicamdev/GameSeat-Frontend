@@ -1,5 +1,5 @@
 <div class="auth-container">
-    <form *ngIf="showLogin" (ngSubmit)="login()">
+    <form *ngIf="showLogin" (ngSubmit)="login({ email: loginData.email, password: loginData.password })">
         <h2>Iniciar Sesión</h2>
         <input type="email" placeholder="Correo electrónico"
             [(ngModel)]="loginData.email" name="email" required>
