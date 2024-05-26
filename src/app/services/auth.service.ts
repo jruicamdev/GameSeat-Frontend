@@ -1,51 +1,71 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import { environment } from 'src/environments/environment.development';
+import { Injectable, inject } from '@angular/core';
+import { AuthError, AuthProvider, UserCredential, createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { Auth, authState } from '@angular/fire/auth';
+
+
+export interface UserDto {
+  username: string;
+  email: string;
+  password: string;
+}
+export interface Credential {
+  email: string;
+  password: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private auth: Auth = inject(Auth);
 
-  private currentUserSubject: BehaviorSubject<any>;
-  public currentUser: Observable<any>;
+  constructor() { }
 
-  constructor(private http: HttpClient) {
-    const storedUser = localStorage.getItem('currentUser');
-    this.currentUserSubject = new BehaviorSubject<any>(storedUser ? "" : null);
-    this.currentUser = this.currentUserSubject.asObservable();
-  }
+  readonly authState$ = authState(this.auth);
 
-  public get currentUserValue(): any {
-    return this.currentUserSubject.value;
-  }
-
-  login(username: string, password: string): Observable<any> {
-    return this.http.post<any>(environment.api_url + "users/login", { username, password })
-      .pipe(map(response => {
-        const token  = response.tokenString;
-        if(token == ""){
-          return "password-incorrect";
-        }else{
-          localStorage.setItem('currentUser', JSON.stringify(token));
-          this.currentUserSubject.next(token);
-          return token;
-        }
-      }),
-        catchError(error => {
-          return throwError(error);
-        })
+  async signUpWithEmailAndPassword(credential: Credential): Promise<UserCredential | unknown> {
+    try {
+      return await createUserWithEmailAndPassword(
+        this.auth,
+        credential.email,
+        credential.password
       );
+    } catch (error) {
+      const firebaseError = error as AuthError;
+      // Return a structured error message
+      return 'auth/invalid-email: ' + firebaseError;
+    };
+
   }
 
-  register(username: string, email: string, password: string): Observable<any> {
-    return this.http.post<any>(environment.api_url+ "users/register", { username, email, password });
+  async logInWithEmailAndPassword(credential: Credential) {
+    try {
+      return await signInWithEmailAndPassword(
+        this.auth,
+        credential.email,
+        credential.password
+      );
+    } catch (error) {
+      return await error;
+    }
   }
 
-  logout(): void {
-    localStorage.removeItem('currentUser');
-    this.currentUserSubject.next(null);
+  getAuth() {
+    return getAuth();
   }
+
+  logOut(): Promise<void> {
+    return this.auth.signOut();
+  }
+
+  async callPopUp(provider: AuthProvider): Promise<UserCredential> {
+    try {
+      const result = await signInWithPopup(this.auth, provider);
+
+      return result;
+    } catch (error: any) {
+      return error;
+    }
+  }
+
 }

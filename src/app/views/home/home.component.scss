@@ -1,7 +1,7 @@
 .homepage {
     background-image: url('../../../assets/img/gaming-center.png');
     width: 100vw;
-    height: 100vh;
+    height: 100%;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -57,27 +57,12 @@
     color: #76a9fa;
 }
 
-.mat-toolbar-row,
-.mat-toolbar-single-row {
-    display: flex !important;
-    justify-content: flex-end !important;
-}
-
-mat-toolbar {
-    background: rgba(0, 0, 0, 0.5);
-}
-
-
-mat-toolbar>a,
-mat-toolbar>button {
-    background: transparent;
-    color: #ffffff;
-}
 
 /* Estilos para la sección de especificaciones */
 .specifications-section {
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.432); /* Fondo semitransparente oscuro */
     color: #fff;
+    border-radius: 8px; /* Bordes redondeados */
     text-align: center;
     padding: 50px 0;
 }
@@ -97,10 +82,13 @@ mat-toolbar>button {
     width: 30%;
 }
 
-.specification-icon {
-    width: 50px;
-    height: auto;
-    margin-bottom: 20px;
+.specification > mat-icon{
+    font-size: 40px;
+}
+
+.specification > .mat-icon{
+    width: auto !important;
+    height: auto !important;
 }
 
 .specification h2 {
@@ -111,7 +99,7 @@ mat-toolbar>button {
 .specification ul {
     list-style: none;
     padding: 0;
-    text-align: left;
+    text-align: center;
 }
 
 .specification ul li {
@@ -122,6 +110,7 @@ mat-toolbar>button {
     color: white;
     text-align: center;
     padding: 40px;
+    margin-top:30px;
 }
 
 .services-header h1 {
@@ -147,10 +136,6 @@ mat-toolbar>button {
     width: 200px;
 }
 
-.service-icon {
-    margin-bottom: 10px;
-}
-
 .service-details h2 {
     font-size: 1.5em;
     margin-bottom: 5px;
@@ -160,4 +145,41 @@ mat-toolbar>button {
     font-size: 2em;
     font-weight: bold;
     margin-top: 10px;
+}
+
+.footer{
+    margin-bottom: 0;
+}
+
+.schedule-container {
+    color: white; /* Texto blanco para contraste */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.432); /* Fondo semitransparente oscuro */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 20px; /* Espaciado interno */
+    margin: 20px; /* Espaciado externo */
+    width: calc(100% - 80px) ; /* Ancho automático según el contenido */
+}
+
+.schedule-table {
+    width: 60%; /* Ocupar el ancho completo del contenedor */
+    border-collapse: collapse; /* Los bordes de las celdas colapsan en uno solo */
+}
+
+.schedule-table th, .schedule-table td {
+    border: 1px solid #555; /* Bordes sutiles para las celdas */
+    padding: 10px 20px; /* Espaciado dentro de las celdas */
+    align-content: center; /* Texto centrado */
+}
+
+.schedule-table th {
+    background-color: #333; /* Fondo más oscuro para los encabezados */
+    font-size: 1.2em; /* Tamaño de fuente mayor para encabezados */
+}
+
+.schedule-table td {
+    background-color: #444; /* Fondo ligeramente más claro para las celdas */
 }

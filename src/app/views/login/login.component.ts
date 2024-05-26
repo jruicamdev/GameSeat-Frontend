@@ -1,74 +1,197 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { AuthService } from 'src/app/services/auth.service';
-import { StorageService } from 'src/app/services/storage.service';
-import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
-import { HttpClientModule } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { NgIf } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService, Credential, UserDto } from 'src/app/services/auth.service';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { trigger, state, style, transition, animate } from '@angular/animations';
+import { ToolbarComponent } from 'src/app/shared/toolbar/toolbar.component';
+import { UserService } from 'src/app/services/user.service';
 
+
+
+export interface LogInForm {
+  email: FormControl<string>;
+  password: FormControl<string>;
+}
+export interface SignUpForm {
+  userName: FormControl<string>;
+  email: FormControl<string>;
+  password: FormControl<string>;
+}
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule,CommonModule,HttpClientModule],
+  imports: [MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatButtonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    NgIf,
+    MatSnackBarModule,
+    ToolbarComponent],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrl: './login.component.scss',
+  animations: [
+    trigger('flipState', [
+      state('default', style({
+        transform: 'rotateY(0deg)'
+      })),
+      state('flipped', style({
+        transform: 'rotateY(180deg)'
+      })),
+      transition('default => flipped', animate('500ms ease-out')),
+      transition('flipped => default', animate('500ms ease-in'))
+    ])
+  ]
 })
 export class LoginComponent {
-
+  formBuilder = inject(FormBuilder);
   constructor(
-    private authService: AuthService,
-    private storageService: StorageService,
     private _snackBar: MatSnackBar,
-    private router : Router
-  ) {}
+    private router: Router,
+    private authService: AuthService,
+    private userService: UserService
+  ) { }
   showLogin = true;
 
-  loginData = {
-    email: '',
-    password: ''
-  };
+  hide = true;
 
-  registerData = {
-    username: '',
-    email: '',
-    password: ''
-  };
+
+  signUpForm: FormGroup<SignUpForm> = this.formBuilder.group({
+    userName: this.formBuilder.control('', {
+      validators: Validators.required,
+      nonNullable: true,
+    }),
+    email: this.formBuilder.control('', {
+      validators: [Validators.required, Validators.email],
+      nonNullable: true,
+    }),
+    password: this.formBuilder.control('', {
+      validators: [Validators.required, Validators.minLength(6)],
+      nonNullable: true,
+    }),
+  });
+
+  logInForm: FormGroup<LogInForm> = this.formBuilder.group({
+    email: this.formBuilder.control('', {
+      validators: [Validators.required, Validators.email],
+      nonNullable: true,
+    }),
+    password: this.formBuilder.control('', {
+      validators: [Validators.required],
+      nonNullable: true,
+    }),
+  });
 
   toggleForm() {
     this.showLogin = !this.showLogin;
   }
 
-  login(): void {
-    this.authService.login(this.loginData.email, this.loginData.password).subscribe({
-      next: (data) => {
-        if(data == "password-incorrect"){
-          this._snackBar.open("Contraseña Incorrecta" ,"Cerrar");
-        }else{
-          this.storageService.saveToken(data.token);
-          this.storageService.saveUserDetails(data);
-          this.router.navigate(["/reservations"]);
-        }
-
-      },
-      error: (error) => {
-        console.error('Login failed:', error);
-      }
-    });
+  get flipState(): string {
+    return this.showLogin ? 'default' : 'flipped';
   }
 
-  register(): void {
-    this.authService.register(this.registerData.username, this.registerData.email, this.registerData.password).subscribe({
-      next: (data) => {
-        this.storageService.saveToken(data.token);
-        this.storageService.saveUserDetails(data);
-        this._snackBar.open("Registro Completado" ,"Cerrar");
-        this.toggleForm();
-      },
-      error: (error) => {
-        this._snackBar.open("Error en el registro:" + error,"Cerrar");
+  async signUp(): Promise<void> {
+    if (this.signUpForm.invalid) return;
+
+    const credential: Credential = {
+      email: this.signUpForm.value.email || '',
+      password: this.signUpForm.value.password || '',
+    };
+
+    try {
+      await this.authService.signUpWithEmailAndPassword(credential);
+
+      const snackBarRef = this._snackBar.open("");
+
+      const userDto: UserDto = {
+        username: this.signUpForm.value.userName!,
+        email: this.signUpForm.value.email!,
+        password: this.signUpForm.value.password!
+      };
+      if(userDto.username == undefined || userDto.email == undefined || userDto.password == undefined){
+        return;
       }
-    });
+      await this.userService.createUserAPI(userDto)
+      snackBarRef.afterDismissed().subscribe(() => {
+        this.router.navigateByUrl('/reservations');
+      });
+    } catch (error) {
+      this._snackBar.open("Registro no valido", "Cerrar",{
+        duration: 2500,
+        verticalPosition: 'bottom',
+        horizontalPosition: 'center',
+      } );
+    }
   }
+
+  async logIn(): Promise<void> {
+    if (this.logInForm.invalid) return;
+
+    const credential: Credential = {
+      email: this.logInForm.value.email || '',
+      password: this.logInForm.value.password || '',
+    };
+
+    try {
+      const user = await this.authService.logInWithEmailAndPassword(credential);
+      // Verificar si la autenticación fue realmente exitosa y el objeto usuario es válido
+      if (user) {
+        console.log(user);
+        // Snackbar de éxito
+        this._snackBar.open('Inicio de sesión exitoso', 'Cerrar', {
+          duration: 3000
+        });
+
+        this.router.navigateByUrl('/reservations');
+      } else {
+        // Si no hay un objeto de usuario, asumir falla en el inicio de sesión
+        this._snackBar.open('Inicio de sesión fallido', 'Cerrar', {
+          duration: 3000
+        });      }
+    } catch (error) {
+      console.error(error);
+      // Snackbar de error
+      this._snackBar.open('Error al iniciar sesión', 'Cerrar', {
+        duration: 3000
+      });
+    }
+  }
+
+
+  isEmailValidSignUp(): string | boolean {
+    const control = this.signUpForm.get('email');
+
+    const isInvalid = control?.invalid && control.touched;
+
+    if (isInvalid) {
+      return control?.hasError('required')
+        ? 'This field is required'
+        : 'Enter a valid email';
+    }
+
+    return false;
+  }
+
+  isEmailValidLogIn(): string | boolean {
+    const control = this.logInForm.get('email');
+
+    const isInvalid = control?.invalid && control.touched;
+
+    if (isInvalid) {
+      return control?.hasError('required')
+        ? 'This field is required'
+        : 'Enter a valid email';
+    }
+
+    return false;
+  }
+
 }

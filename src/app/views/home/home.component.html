@@ -1,99 +1,125 @@
 <div class="homepage">
-    <mat-toolbar>
-        <button mat-icon-button>
-            <mat-icon>translate</mat-icon>
-        </button>
-        <a [routerLink]="['/login']" aria-label="Link to login page">
-            <button mat-icon-button class="example-icon favorite-icon">
-                <mat-icon>login</mat-icon>
-            </button>
-        </a>
-    </mat-toolbar>
+    <app-toolbar></app-toolbar>
     <div class="header">
-        <h1>EL TEMPLO ESPORTS</h1>
-        <p>GAMING CENTER SEVILLA</p>
-        <h2>"El hogar de los gamers"</h2>
-        <span>Abierto 24H</span>
+      <h1>{{ 'HOME.TITLE' | translate }}</h1>
+      <p>{{ 'HOME.SUBTITLE' | translate }}</p>
+      <h2>{{ 'HOME.TAGLINE' | translate }}</h2>
     </div>
     <div class="services-section">
-        <div class="services-header">
-            <h1>ZONA STANDARD</h1>
-            <p>En nuestra Zona Standard, contamos con 44 ordenadores de última
-                generación, perfectamente equipados para ofrecerte una
-                experiencia de juego inigualable.</p>
+      <div class="services-header">
+        <h1>{{ 'SERVICES.STANDARD_ZONE.TITLE' | translate }}</h1>
+        <p>{{ 'SERVICES.STANDARD_ZONE.DESCRIPTION' | translate }}</p>
+      </div>
+      <div class="specifications-section">
+        <h1 class="specifications-title">{{ 'SPECIFICATIONS.TITLE' | translate }}</h1>
+        <div class="specifications-details">
+          <div class="specification">
+            <mat-icon>memory</mat-icon>
+            <h2>{{ 'SPECIFICATIONS.COMPONENTS.TITLE' | translate }}</h2>
+            <ul>
+              <li>{{ 'SPECIFICATIONS.COMPONENTS.ITEM1' | translate }}</li>
+              <li>{{ 'SPECIFICATIONS.COMPONENTS.ITEM2' | translate }}</li>
+              <li>{{ 'SPECIFICATIONS.COMPONENTS.ITEM3' | translate }}</li>
+            </ul>
+          </div>
+          <div class="specification">
+            <mat-icon>tv</mat-icon>
+            <h2>{{ 'SPECIFICATIONS.MONITOR.TITLE' | translate }}</h2>
+            <ul>
+              <li>{{ 'SPECIFICATIONS.MONITOR.ITEM1' | translate }}</li>
+            </ul>
+          </div>
+          <div class="specification">
+            <mat-icon>keyboard</mat-icon>
+            <h2>{{ 'SPECIFICATIONS.PERIPHERALS.TITLE' | translate }}</h2>
+            <ul>
+              <li>{{ 'SPECIFICATIONS.PERIPHERALS.ITEM1' | translate }}</li>
+              <li>{{ 'SPECIFICATIONS.PERIPHERALS.ITEM2' | translate }}</li>
+              <li>{{ 'SPECIFICATIONS.PERIPHERALS.ITEM3' | translate }}</li>
+            </ul>
+          </div>
         </div>
-        <div class="specifications-section">
-            <h1 class="specifications-title">ESPECIFICACIONES</h1>
-            <div class="specifications-details">
-                <div class="specification">
-                    <img src="path-to-components-icon.png" alt="Componentes"
-                        class="specification-icon">
-                    <h2>Componentes</h2>
-                    <ul>
-                        <li>AMD Ryzen 7 3700X</li>
-                        <li>16GB Ram DDR4</li>
-                        <li>Gigabyte RTX2060 6GB</li>
-                    </ul>
-                </div>
-                <div class="specification">
-                    <img src="path-to-monitor-icon.png" alt="Monitor"
-                        class="specification-icon">
-                    <h2>Monitor</h2>
-                    <ul>
-                        <li>Zowie XL2411P 144Hz</li>
-                    </ul>
-                </div>
-                <div class="specification">
-                    <img src="path-to-peripherals-icon.png" alt="Periféricos"
-                        class="specification-icon">
-                    <h2>Periféricos</h2>
-                    <ul>
-                        <li>Teclados Logitech G413 TKL</li>
-                        <li>Teclados Logitech G512</li>
-                        <li>Ratón Zowie FK2-C</li>
-                    </ul>
-                </div>
-            </div>
+      </div>
+      <div class="services-container">
+        <div class="service">
+          <div class="service-icon">
+            <img src="../../../assets/img/svg/clock.svg" alt="{{ 'SERVICES.PRICE_PER_HOUR.ALT' | translate }}">
+          </div>
+          <div class="service-details">
+            <h2>{{ 'SERVICES.PRICE_PER_HOUR.TITLE' | translate }}</h2>
+            <p>{{ 'SERVICES.PRICE_PER_HOUR.DESCRIPTION' | translate }}</p>
+            <div class="service-price">3€</div>
+          </div>
         </div>
-        <div class="services-container">
-            <div class="service">
-                <div class="service-icon">
-                    <img src="../../../assets/img/svg/clock.svg"
-                        alt="Precio por hora">
-                </div>
-                <div class="service-details">
-                    <h2>PRECIO POR HORA</h2>
-                    <p>El pago de horas individuales es acumulable.</p>
-                    <div class="service-price">3€</div>
-                </div>
-            </div>
-            <div class="service">
-                <div class="service-icon">
-                    <img src="../../../assets/img/svg/moon.svg"
-                        alt="Hora nocturna">
-                </div>
-                <div class="service-details">
-                    <h2>HORA NOCTURNA</h2>
-                    <p>Precio por hora suelta: Todos los días de 23:00h a
-                        7:00h.</p>
-                    <div class="service-price">4€</div>
-                </div>
-            </div>
-            <div class="service">
-                <div class="service-icon">
-                    <img src="../../../assets/img/svg/weekend.svg"
-                        alt="Hora premium">
-                </div>
-                <div class="service-details">
-                    <h2>HORA PREMIUM</h2>
-                    <p>Precio por hora suelta: ¡Los viernes, sábados y vísperas
-                        de festivo!</p>
-                    <div class="service-price">4€</div>
-                </div>
-            </div>
+        <div class="service">
+          <div class="service-icon">
+            <img src="../../../assets/img/svg/weekend.svg" alt="{{ 'SERVICES.PREMIUM_HOUR.ALT' | translate }}">
+          </div>
+          <div class="service-details">
+            <h2>{{ 'SERVICES.PREMIUM_HOUR.TITLE' | translate }}</h2>
+            <p>{{ 'SERVICES.PREMIUM_HOUR.DESCRIPTION' | translate }}</p>
+            <div class="service-price">5€</div>
+          </div>
         </div>
+      </div>
+      <div class="schedule-container">
+        <table class="schedule-table">
+          <thead>
+            <tr>
+              <th>{{ 'SCHEDULE.DAY' | translate }}</th>
+              <th>{{ 'SCHEDULE.OPENING_HOUR' | translate }}</th>
+              <th>{{ 'SCHEDULE.CLOSING_HOUR' | translate }}</th>
+              <th>{{ 'SCHEDULE.PRICE_PER_HOUR' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ 'DAYS.MONDAY' | translate }}</td>
+              <td>08:00 AM</td>
+              <td>10:00 PM</td>
+              <td>3</td>
+            </tr>
+            <tr>
+              <td>{{ 'DAYS.TUESDAY' | translate }}</td>
+              <td>06:00 AM</td>
+              <td>10:00 PM</td>
+              <td>3</td>
+            </tr>
+            <tr>
+              <td>{{ 'DAYS.WEDNESDAY' | translate }}</td>
+              <td>06:00 AM</td>
+              <td>10:00 PM</td>
+              <td>3</td>
+            </tr>
+            <tr>
+              <td>{{ 'DAYS.THURSDAY' | translate }}</td>
+              <td>06:00 AM</td>
+              <td>10:00 PM</td>
+              <td>3</td>
+            </tr>
+            <tr>
+              <td>{{ 'DAYS.FRIDAY' | translate }}</td>
+              <td>06:00 AM</td>
+              <td>02:00 AM ({{ 'DAYS.SATURDAY' | translate }})</td>
+              <td>5</td>
+            </tr>
+            <tr>
+              <td>{{ 'DAYS.SATURDAY' | translate }}</td>
+              <td>06:00 AM</td>
+              <td>02:00 AM ({{ 'DAYS.SUNDAY' | translate }})</td>
+              <td>5</td>
+            </tr>
+            <tr>
+              <td>{{ 'DAYS.SUNDAY' | translate }}</td>
+              <td>08:00 AM</td>
+              <td>10:00 PM</td>
+              <td>5</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
     <div class="footer">
-        <p>Aplicación GameSeat pro Javier Ruiz Camacho</p>
+      <span>{{ 'FOOTER.TEXT' | translate }}</span>
     </div>
-</div>
+  </div>

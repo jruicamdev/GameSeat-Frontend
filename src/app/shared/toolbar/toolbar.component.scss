@@ -1,0 +1,54 @@
+.mat-toolbar-row,
+.mat-toolbar-single-row {
+    display: flex !important;
+    justify-content: space-between;
+}
+
+mat-toolbar {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+
+mat-toolbar>a,
+mat-toolbar>button {
+    background: transparent;
+    color: #ffffff;
+}
+
+a {
+    text-decoration: none !important;
+}
+.titulos{
+    display: flex;
+    color: white;
+    justify-content: space-between;
+}
+.titulos> h4{
+    margin:10px;
+}
+
+button.mat-icon-button {
+    margin-right: 8px;
+    /* Espacio entre botones */
+}
+
+.mat-icon-button {
+    border-radius: 50%;
+    /* Hace los botones circulares */
+    width: 48px;
+    /* Tamaño uniforme para todos los botones */
+    height: 48px;
+    line-height: 48px;
+    /* Centra verticalmente el icono */
+    transition: background-color 0.3s, transform 0.3s;
+    /* Transición suave para efectos */
+}
+
+
+
+.mat-icon {
+    font-size: 26px;
+    border: none;
+    /* Tamaño del icono */
+}
+

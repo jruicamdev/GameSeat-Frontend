@@ -1,0 +1,19 @@
+img {
+    width: 55%;
+}
+
+.rotate-right {
+    transform: rotate(90deg);
+}
+
+.rotate-left {
+    transform: rotate(90deg);
+}
+
+.isInactive {
+    filter: contrast(0);
+}
+
+.isReserved {
+    filter:saturate(100), 
+}

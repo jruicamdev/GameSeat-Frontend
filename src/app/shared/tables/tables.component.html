@@ -1,0 +1,10 @@
+<div class="table-container">
+    <div class="table">
+        <div class="leftSide">
+            <app-chair *ngFor="let chair of leftSideChairs" [chair]="chair" [id]="chair.id" [rotate]="false"></app-chair>
+        </div>
+        <div class="rightSide">
+            <app-chair *ngFor="let chair of rightSideChairs" [chair]="chair" [id]="chair.id" [isActive]="chair.status" [rotate]="true"></app-chair>
+        </div>
+    </div>
+</div>

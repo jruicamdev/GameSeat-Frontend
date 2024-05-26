@@ -1,25 +1,77 @@
-<div class="auth-container">
-    <form *ngIf="showLogin" (ngSubmit)="login()">
-        <h2>Iniciar Sesión</h2>
-        <input type="email" placeholder="Correo electrónico"
-            [(ngModel)]="loginData.email" name="email" required>
-        <input type="password" placeholder="Contraseña"
-            [(ngModel)]="loginData.password" name="password" required>
-        <button type="submit">Iniciar Sesión</button>
-        <p>O</p>
-        <button type="button" (click)="toggleForm()">Crear una cuenta</button>
-    </form>
+<div class="background">
+  <app-toolbar></app-toolbar>
+  <div class="container">
+    <h2>Inicia Sesión o Crea una Cuenta</h2>
+    <h3>Y podrás disfrutar de una experiencia inolvidable</h3>
+    <div class="auth-container">
+      <div class="form-container" [class.show-login]="showLogin"
+        [@flipState]="flipState">
+        <form [formGroup]="logInForm" (ngSubmit)="logIn()"
+          *ngIf="showLogin; else signUpFormTemplate" class="front">
+          <div class="field">
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="email" />
+              <mat-error *ngIf="signUpForm.get('email')?.errors?.['email']">Email not valid</mat-error>
+            </mat-form-field>
+          </div>
 
-    <form *ngIf="!showLogin" (ngSubmit)="register()">
-        <h2>Registrarse</h2>
-        <input type="text" placeholder="Nombre de usuario"
-            [(ngModel)]="registerData.username" name="username" required>
-        <input type="email" placeholder="Correo electrónico"
-            [(ngModel)]="registerData.email" name="email" required>
-        <input type="password" placeholder="Contraseña"
-            [(ngModel)]="registerData.password" name="password" required>
-        <button type="submit">Registrarse</button>
-        <p>O</p>
-        <button type="button" (click)="toggleForm()">Iniciar Sesión</button>
-    </form>
+          <div>
+            <mat-form-field appearance="outline">
+              <mat-label>Enter your password</mat-label>
+              <input
+                matInput
+                [type]="hide ? 'password' : 'text'"
+                formControlName="password" />
+              <mat-error>This field can't be empty</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <button mat-flat-button color="primary" type="submit" [disabled]="!logInForm.valid">Log
+              in</button>
+          </div>
+          <p>O</p>
+          <button type="button" (click)="toggleForm()">Crear una cuenta</button>
+        </form>
+      </div>
+      <ng-template #signUpFormTemplate>
+
+        <form *ngIf="!showLogin" [formGroup]="signUpForm" (ngSubmit)="signUp()"
+          class="back">
+          <div>
+            <mat-form-field appearance="outline">
+              <mat-label>Usuario</mat-label>
+              <input matInput formControlName="userName" />
+              <mat-error>This field is required</mat-error>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="email" />
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field appearance="outline">
+              <mat-label>Enter your password</mat-label>
+              <input
+                matInput
+                [type]="hide ? 'password' : 'text'"
+                formControlName="password" />
+              <mat-error *ngIf="signUpForm.get('password')?.errors?.['required']">This field is required</mat-error>
+              <mat-error *ngIf="signUpForm.get('password')?.errors?.['minLength']">Password must be at least 6 characters</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <button mat-flat-button color="primary" type="submit" [disabled]="!signUpForm.valid">Sign up</button>
+          </div>
+          <p>O</p>
+          <button type="button" (click)="toggleForm()">Iniciar Sesión</button>
+        </form>
+      </ng-template>
+    </div>
+  </div>
 </div>

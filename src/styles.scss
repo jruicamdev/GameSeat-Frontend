@@ -1,9 +1,14 @@
 * {
-    font-family: 'Iceland', sans-serif;
+    font-family: 'Iceland', 'Oswald',sans-serif;
 }
-*{
-    overflow-y: hidden;
-    overflow-x: hidden;
+*::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge, and Firefox */
+* {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }
 body{
     margin: 0;
