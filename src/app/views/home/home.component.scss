@@ -57,22 +57,6 @@
     color: #76a9fa;
 }
 
-.mat-toolbar-row,
-.mat-toolbar-single-row {
-    display: flex !important;
-    justify-content: flex-end !important;
-}
-
-mat-toolbar {
-    background: rgba(0, 0, 0, 0.5);
-}
-
-
-mat-toolbar>a,
-mat-toolbar>button {
-    background: transparent;
-    color: #ffffff;
-}
 
 /* Estilos para la sección de especificaciones */
 .specifications-section {

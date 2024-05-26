@@ -1,4 +1,4 @@
-img{
+img {
     width: 55%;
 }
 
@@ -10,9 +10,10 @@ img{
     transform: rotate(90deg);
 }
 
-.isInactive{
-   filter: contrast(0);  
+.isInactive {
+    filter: contrast(0);
 }
-.isReserved{
-    filter: grayscale(80);  
+
+.isReserved {
+    filter:saturate(100), 
 }

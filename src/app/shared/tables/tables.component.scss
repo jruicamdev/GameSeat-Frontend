@@ -9,7 +9,8 @@
 .table {
     width: 50%;
     background-color: black;
-    height: 100%;
+    height: 90%;
+    top: 0;
     display: flex; /* Usa Flexbox para organizar los hijos */
     justify-content: space-between; /* Separa los grupos de sillas */
     position: relative; /* Necesario para posicionar absolutamente las sillas */
@@ -23,14 +24,14 @@
 }
 
 .leftSide {
-    left: -70px; /* Desplaza las sillas a la izquierda del div negro */
-    transform: rotateY(0deg); /* Rota las sillas hacia la mesa */
-    align-items: flex-end; /* Alinea las sillas hacia el borde exterior */
+    left: -70px;
+    transform: rotateY(0deg);
+    align-items: flex-end;
 }
 
 .rightSide {
-    right: -70px; /* Desplaza las sillas a la derecha del div negro */
-    transform: rotateY(180deg); /* Rota las sillas hacia la mesa */
-    align-items: flex-start; /* Alinea las sillas hacia el borde exterior */
+    right: -70px;
+    transform: rotateY(180deg);
+    align-items: flex-start;
 }
 

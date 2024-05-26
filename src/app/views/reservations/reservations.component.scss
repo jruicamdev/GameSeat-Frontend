@@ -41,10 +41,42 @@
     /* Mueve la descripción fuera de la vista */
 }
 
-.button-container {
-    position: absolute;
-    right: 10px;
-    margin-right: 20px;
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f5f5f5;
+    padding-right: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+}
+.profile{
+    justify-content: center;
+}
+
+.button-container{
+    display:flex
+}
+
+.icon-button:hover {
+    background-color: #f0f0f0;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+}
+
+.profile-button {
+    position: relative;
+    margin-right: 5px;
+    /* Asegura espacio entre el botón de perfil y el nombre de usuario */
+}
+
+#person-button>img {
+    width: 100%;
+    height: auto;
+    display: block;
 }
 
 #table1 {
@@ -142,10 +174,11 @@ mat-form-field {
     border-radius: 8px;
 }
 
-.mat-form-field-filter{
+.mat-form-field-filter {
 
     width: 20%;
-    align-items: center; /* Centra el contenido del form field verticalmente */
+    align-items: center;
+    /* Centra el contenido del form field verticalmente */
 }
 
 .filter-button {

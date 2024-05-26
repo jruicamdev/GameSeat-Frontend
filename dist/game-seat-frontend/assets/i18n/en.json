@@ -1,0 +1,60 @@
+{
+    "HOME": {
+        "TITLE": "THE ESPORTS TEMPLE",
+        "SUBTITLE": "GAMING CENTER SEVILLE",
+        "TAGLINE": "\"The home of gamers\""
+    },
+    "SERVICES": {
+        "STANDARD_ZONE": {
+            "TITLE": "STANDARD ZONE",
+            "DESCRIPTION": "In our Standard Zone, we have 48 state-of-the-art computers, perfectly equipped to offer you an unparalleled gaming experience."
+        },
+        "PRICE_PER_HOUR": {
+            "TITLE": "PRICE PER HOUR",
+            "DESCRIPTION": "Payment for individual hours is cumulative.",
+            "ALT": "Price per hour"
+        },
+        "PREMIUM_HOUR": {
+            "TITLE": "PREMIUM HOUR",
+            "DESCRIPTION": "Price per individual hour: Fridays, Saturdays, and Sundays!",
+            "ALT": "Premium hour"
+        }
+    },
+    "SPECIFICATIONS": {
+        "TITLE": "SPECIFICATIONS",
+        "COMPONENTS": {
+            "TITLE": "Components",
+            "ITEM1": "AMD Ryzen 7 3700X",
+            "ITEM2": "16GB DDR4 RAM",
+            "ITEM3": "Gigabyte RTX2060 6GB"
+        },
+        "MONITOR": {
+            "TITLE": "Monitor",
+            "ITEM1": "Zowie XL2411P 144Hz"
+        },
+        "PERIPHERALS": {
+            "TITLE": "Peripherals",
+            "ITEM1": "Logitech G413 TKL Keyboards",
+            "ITEM2": "Logitech G512 Keyboards",
+            "ITEM3": "Zowie FK2-C Mouse"
+        }
+    },
+    "SCHEDULE": {
+        "DAY": "Day",
+        "OPENING_HOUR": "Opening Hour",
+        "CLOSING_HOUR": "Closing Hour",
+        "PRICE_PER_HOUR": "Price per Hour (€)"
+    },
+    "DAYS": {
+        "MONDAY": "Monday",
+        "TUESDAY": "Tuesday",
+        "WEDNESDAY": "Wednesday",
+        "THURSDAY": "Thursday",
+        "FRIDAY": "Friday",
+        "SATURDAY": "Saturday",
+        "SUNDAY": "Sunday"
+    },
+    "FOOTER": {
+        "TEXT": "GameSeat Application by Javier Ruiz Camacho"
+    }
+}

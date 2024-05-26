@@ -1,12 +1,20 @@
 <div class="container">
-  <div class="button-container">
-    <button mat-icon-button><mat-icon>translate</mat-icon></button>
-    <button mat-icon-button><mat-icon>dark_mode</mat-icon></button>
-    <button mat-icon-button
-      id="person-button"><mat-icon>person</mat-icon></button>
+  <div class="header">
+    <div class="title-container">
+      <h1>Reserva de Spots</h1>
+    </div>
+    <div class="button-container">
+      <button (click)="navigateToAdmin()" mat-icon-button *ngIf="isAdmin"><mat-icon outline>verified_user</mat-icon></button>
+      <button class="icon-button" mat-icon-button><mat-icon>translate</mat-icon></button>
+      <div class="profile">
+        <button class="icon-button profile-button" mat-icon-button id="person-button"
+          (click)="navigateToProfile()" matBadge="5" matBadgeColor="warn" matBadgePosition="above after">
+          <img src="{{ profileImage }}" alt="Profile">
+        </button>
+      </div>
+      <button class="icon-button" mat-icon-button id="logout-button" (click)="logout()"><mat-icon>logout</mat-icon></button>
+    </div>
   </div>
-  <h1>Reserva de Spots</h1>
-  <h3>Selecciona la silla para reservarla</h3>
   <div class="filter-container">
     <form [formGroup]="filterForm" (ngSubmit)="submit()"
       class="filter-container">
@@ -21,16 +29,17 @@
 
       <mat-form-field appearance="fill" class="mat-form-field-filter">
         <mat-label>Hora de entrada</mat-label>
-        <input matInput type="time" formControlName="startTime">
+        <input matInput type="time" formControlName="startTime" step="3600">
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="mat-form-field-filter">
         <mat-label>Hora de salida</mat-label>
-        <input matInput type="time" formControlName="endTime">
+        <input matInput type="time" formControlName="endTime" step="3600">
       </mat-form-field>
 
-      <button mat-raised-button class="filter-button" color="primary"
-        (click)="applyFilters()">Filtrar</button>
+      <button mat-raised-button class="filter-button"
+        [disabled]="!filterForm.valid"
+        color="primary" s>Filtrar</button>
     </form>
   </div>
   <div class="room-container">
@@ -45,7 +54,7 @@
           (click)="close()"><mat-icon>close</mat-icon></button>
         <img src="../../../assets/img/gaming-chair-front.png"
           alt="Silla vista frontal">
-        <form [formGroup]="form" (ngSubmit)="submit()">
+        <form [formGroup]="form" (ngSubmit)="submitReserve()">
           <mat-form-field appearance="fill">
             <mat-label>Escoge el día</mat-label>
             <input matInput [matDatepicker]="picker" formControlName="date"
@@ -57,15 +66,16 @@
 
           <mat-form-field appearance="fill">
             <mat-label>Hora de entrada</mat-label>
-            <input matInput type="time" formControlName="startTime">
+            <input matInput type="time" formControlName="startTime" step="3600">
           </mat-form-field>
 
           <mat-form-field appearance="fill">
             <mat-label>Hora de salida</mat-label>
-            <input matInput type="time" formControlName="endTime">
+            <input matInput type="time" formControlName="endTime" step="3600">
           </mat-form-field>
 
           <button mat-raised-button color="primary" class="reservation-form"
+            [disabled]="!form.valid"
             type="submit">Reservar</button>
         </form>
       </div>

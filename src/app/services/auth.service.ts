@@ -1,75 +1,71 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, BehaviorSubject, throwError, Observer, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import { environment } from 'src/environments/environment.development';
-import { Token } from '../models/token';
+import { Injectable, inject } from '@angular/core';
+import { AuthError, AuthProvider, UserCredential, createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { Auth, authState } from '@angular/fire/auth';
+
+
+export interface UserDto {
+  username: string;
+  email: string;
+  password: string;
+}
+export interface Credential {
+  email: string;
+  password: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private auth: Auth = inject(Auth);
 
-  private currentUserSubject: BehaviorSubject<any>;
-  public currentUser: Observable<any>;
+  constructor() { }
 
-  constructor(private http: HttpClient) {
-    const storedUser = localStorage.getItem('user');
-    this.currentUserSubject = new BehaviorSubject<any>(storedUser ? "" : null);
-    this.currentUser = this.currentUserSubject.asObservable();
+  readonly authState$ = authState(this.auth);
+
+  async signUpWithEmailAndPassword(credential: Credential): Promise<UserCredential | unknown> {
+    try {
+      return await createUserWithEmailAndPassword(
+        this.auth,
+        credential.email,
+        credential.password
+      );
+    } catch (error) {
+      const firebaseError = error as AuthError;
+      // Return a structured error message
+      return 'auth/invalid-email: ' + firebaseError;
+    };
+
   }
 
-  public get currentUserValue(): any {
-    return this.currentUserSubject.value;
-  }
-
-  login(codedUser: string): Observable<any> {
-    return this.http.post(`${environment.api_url}users/login`, null, {
-      headers: new HttpHeaders({
-        Authorization: `Basic ${codedUser}`,
-        NO_HTTP_INTERCEPTOR: "true"
-      }),
-    });
-  }
-
-  isValidToken(): Observable<boolean> {
-    return this.http.get<boolean>(`${environment.api_url}token/valid`);
-  }
-
-  register(username: string, email: string, password: string): Observable<any> {
-    return this.http.post<any>(environment.api_url+ "users/register", { username, email, password });
-  }
-
-  isAuthenticated(): Observable<boolean> {
-
-    const userString = localStorage.getItem("user");
-    const user: Token = userString ? JSON.parse(userString) : "";
-
-    if (user) {
-      return new Observable((observer: Observer<boolean>) => {
-        this.isValidToken().subscribe({
-          next: (isValid: boolean) => {
-            if (!isValid) {
-              this.logout();
-            }
-            else {
-              observer.next(true);
-            }
-          },
-          error: () => {
-            this.logout();
-            observer.next(false);
-          }
-        });
-      });
-    } else {
-      this.logout();
-      return of(false);
+  async logInWithEmailAndPassword(credential: Credential) {
+    try {
+      return await signInWithEmailAndPassword(
+        this.auth,
+        credential.email,
+        credential.password
+      );
+    } catch (error) {
+      return await error;
     }
   }
 
-  logout(): void {
-    localStorage.removeItem('user');
-    this.currentUserSubject.next(null);
+  getAuth() {
+    return getAuth();
   }
+
+  logOut(): Promise<void> {
+    return this.auth.signOut();
+  }
+
+  async callPopUp(provider: AuthProvider): Promise<UserCredential> {
+    try {
+      const result = await signInWithPopup(this.auth, provider);
+
+      return result;
+    } catch (error: any) {
+      return error;
+    }
+  }
+
 }

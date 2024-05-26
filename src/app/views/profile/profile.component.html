@@ -1,0 +1,62 @@
+<div class="container">
+  <div class="header">
+    <button mat-icon-button (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <button mat-icon-button class="translate">
+      <mat-icon>translate</mat-icon>
+    </button>
+  </div>
+  <div class="main-content">
+    <div class="left-panel">
+      <h3>Selecciona tu Foto de Perfil</h3>
+      <div class="large-image">
+        <img [src]="imageSrc" alt="Perfil Actual" />
+      </div>
+      <div class="grid">
+        <div
+          class="grid-item"
+          *ngFor="let image of images"
+          [class.selected]="image === selectedImage"
+          (click)="selectImage(image)">
+          <img alt="Perfil" [src]="image" />
+        </div>
+      </div>
+      <button class="action-button"
+        (click)="sendSelectedImage()">Acción</button>
+    </div>
+    <div class="right-panel">
+      <h3>Mis Reservas</h3>
+      <ng-container *ngIf="dataSource && dataSource.data.length > 0; else noReservationsTemplate">
+        <mat-accordion class="full-height">
+          <mat-expansion-panel *ngFor="let reservation of dataSource.data" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Reserva #{{reservation.id}}
+              </mat-panel-title>
+              <mat-panel-description>
+                Estado: {{reservation.status}}
+                <button (click)="getStripeURL(reservation.totalAmount,reservation.id)" *ngIf="reservation.status == 'Pending'" mat-raised-button class="payment-button" >Pagar</button>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div class="reservation-summary">
+              <p>Fecha: {{reservation.startTime }}</p>
+              <p>Fin: {{reservation.endTime }}</p>
+              <p>Precio: {{reservation.totalAmount}}</p>
+              <p *ngIf="reservation.status !== 'confirmed'">
+                Tiempo restante: {{ countdowns[reservation.id] | number: '1.0-0' }} segundos
+              </p>
+              <button *ngIf="reservation.status == 'Pending'" mat-raised-button class="payment-button">Pagar</button>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </ng-container>
+      <ng-template #noReservationsTemplate>
+        <div class="no-reservations">
+          <p>No tienes reservas en este momento.</p>
+          <p>Todavía estás a tiempo de hacer una <a href="#">Haz clic aquí para reservar una silla</a></p>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>
