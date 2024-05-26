@@ -1,26 +1,73 @@
 .table-container {
     display: flex;
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center; /* Centra verticalmente */
-    height: 100%; /* Asegúrate de que el contenedor tiene una altura establecida */
+    justify-content: center;
+    /* Centra horizontalmente */
+    align-items: center;
+    /* Centra verticalmente */
+    height: 100%;
+    /* Asegúrate de que el contenedor tiene una altura establecida */
     width: 100%;
 }
 
-.table {
-    width: 50%;
-    background-color: black;
-    height: 90%;
-    top: 0;
-    display: flex; /* Usa Flexbox para organizar los hijos */
-    justify-content: space-between; /* Separa los grupos de sillas */
-    position: relative; /* Necesario para posicionar absolutamente las sillas */
+.table::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    background: linear-gradient(90deg,
+            rgba(255, 0, 0, 0.8),
+            rgba(0, 255, 0, 0.8),
+            rgba(0, 0, 255, 0.8),
+            rgba(255, 0, 0, 0.8));
+    background-size: 400% 400%;
+    border-radius: 10px;
+    z-index: -1;
+    animation: animateBorder 10s linear infinite;
+    padding: 2px;
+    /* Add padding to make the gradient visible */
+    box-sizing: border-box;
+    /* Make sure padding doesn't increase element size */
 }
 
-.leftSide, .rightSide {
+@keyframes animateBorder {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.table {
+    width: 180px;
+    background-color: rgba(0, 0, 0, 0.7); /* Black with low opacity */
+    height: 240px;
+    top: 0;
     display: flex;
-    flex-direction: column; /* Alinea las sillas en columna */
-    position: absolute; /* Posiciona las sillas fuera del div de la mesa */
-    width: 100px; /* Ancho del área de las sillas */
+
+    /* Usa Flexbox para organizar los hijos */
+    justify-content: space-between;
+    /* Separa los grupos de sillas */
+    position: relative;
+    /* Necesario para posicionar absolutamente las sillas */
+}
+
+.leftSide,
+.rightSide {
+    display: flex;
+    flex-direction: column;
+    /* Alinea las sillas en columna */
+    position: absolute;
+    /* Posiciona las sillas fuera del div de la mesa */
+    width: 100px;
+    /* Ancho del área de las sillas */
 }
 
 .leftSide {
@@ -34,4 +81,3 @@
     transform: rotateY(180deg);
     align-items: flex-start;
 }
-

@@ -11,6 +11,8 @@ import { SpinnerComponent } from "./shared/spinner/spinner.component";
 import { LoadingInterceptor } from './interceptor/loading.interceptor';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
+import { my_date } from './models/my_date'
 
 @NgModule({
     declarations: [
@@ -20,7 +22,10 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
         {
             provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true
         },
-        [TranslateService]
+        [TranslateService],
+        { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
+        { provide: DateAdapter, useClass: MatNativeDateModule },
+        { provide: MAT_DATE_FORMATS, useValue: my_date },
     ],
     bootstrap: [AppComponent],
     imports: [

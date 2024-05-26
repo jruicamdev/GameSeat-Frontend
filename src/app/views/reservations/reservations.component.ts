@@ -20,6 +20,7 @@ import { Reservation } from 'src/app/models/reservation';
 import { User } from 'src/app/models/user';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -33,7 +34,8 @@ import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/
     MatInputModule,
     ReactiveFormsModule,
     MatSidenavModule,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    TranslateModule
   ],
 })
 export class ReservationsComponent {
@@ -46,9 +48,16 @@ export class ReservationsComponent {
   selectedChair: Chair | null = null;
   minDate: Date;
   profileImage: string = '';
-  constructor(private chairService: ChairService, private _snackBar: MatSnackBar, private reservationService: ReservationService, private fb: FormBuilder, private authService: AuthService, private userService: UserService, private router: Router,) {
+  currentLanguage = 'es';
+
+
+  constructor(private chairService: ChairService, private _snackBar: MatSnackBar,
+     private reservationService: ReservationService, private fb: FormBuilder, 
+     private authService: AuthService, private translateService : TranslateService, 
+     private userService: UserService, private router: Router,) {
     this.minDate = new Date();
     this.minDate.setDate(this.minDate.getDate() + 1);
+    translateService.setDefaultLang(this.currentLanguage) 
   }
 
   ngOnInit(): void {
@@ -94,6 +103,7 @@ export class ReservationsComponent {
     this.reservationService.getReservationsByDate(formValues.selectedDate, formValues.startTime, formValues.endTime)
       .subscribe(reservations => {
         this.updateChairStatus(reservations);
+        console.log(reservations);
       }, error => {
         console.error('Error: ' + error);
       });
@@ -108,6 +118,11 @@ export class ReservationsComponent {
     // Reinicia los grupos para forzar un re-render
     this.chairGroups = [];
     this.createChairGroups();
+  }
+
+  toggleLanguage() {
+    this.currentLanguage = this.currentLanguage === 'en' ? 'es' : 'en';
+    this.translateService.use(this.currentLanguage);
   }
 
   close() {

@@ -27,4 +27,8 @@ export class AdminService {
       })
     });
   }
+
+  getEstablishmentHours(): Observable<any> {
+    return this.http.get(`${environment.api_url}establishmentHour`);
+  }
 }

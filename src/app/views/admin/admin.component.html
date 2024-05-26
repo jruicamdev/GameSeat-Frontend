@@ -3,14 +3,17 @@
         <div class="title-container">
             <button mat-icon-button (click)="goBack()">
                 <mat-icon>arrow_back</mat-icon>
-              </button>
-            <h1>Admin Dashboard</h1>
+            </button>
+            <h1>{{ 'ADMIN.TITLE' | translate }}</h1>
         </div>
         <div class="button-container">
+            <button class="icon-button" mat-icon-button id="toggleView" (click)="toggleView()">
+                <mat-icon>view_list</mat-icon>
+              </button>
             <button class="icon-button" mat-icon-button (click)="downloadPdf()">
                 <mat-icon>download</mat-icon>
             </button>
-            <button class="icon-button" mat-icon-button>
+            <button class="icon-button" mat-icon-button (click)="toggleLanguage()">
                 <mat-icon>translate</mat-icon>
             </button>
             <button class="icon-button" mat-icon-button id="logout-button" (click)="logout()">
@@ -20,46 +23,67 @@
     </div>
 
     <div class="main-content">
-        <div class="chart-container">
-            <h2>Reservas por Mes</h2>
+        <div class="chart-container" *ngIf="showChart">
+            <h2>{{ 'ADMIN.RESERVATIONS_PER_MONTH' | translate }}</h2>
             <canvas id="reservationsChart"></canvas>
-        </div>
+          </div>
+          <div class="schedule-container" *ngIf="!showChart">
+            <h2>{{ 'ADMIN.SCHEDULE' | translate }}</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>{{ 'SCHEDULE.DAY' | translate }}</th>
+                  <th>{{ 'SCHEDULE.OPENING_HOUR' | translate }}</th>
+                  <th>{{ 'SCHEDULE.CLOSING_HOUR' | translate }}</th>
+                  <th>{{'SCHEDULE.PRICE_PER_HOUR'| translate}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let schedule of schedules">
+                  <td>{{ schedule.DayOfWeek }}</td>
+                  <td>{{ schedule.OpeningTime }}</td>
+                  <td>{{ schedule.ClosingTime }}</td>
+                  <td>{{ schedule.PricePerHour }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         <div class="form-container">
-            <h2>Dar de Baja una Silla</h2>
+            <h2>{{ 'ADMIN.MAINTENANCE_FORM.TITLE' | translate }}</h2>
             <form [formGroup]="maintenanceForm" (ngSubmit)="submitMaintenanceForm()">
                 <mat-form-field>
                     <mat-select formControlName="chairName" (selectionChange)="filterMyOptions($event)">
-                        <mat-option value="">--</mat-option>
+                        <mat-option value="">{{ 'ADMIN.MAINTENANCE_FORM.DEFAULT_OPTION' | translate }}</mat-option>
                         <mat-option *ngFor="let chair of chairs" [value]="chair.description">{{ chair.description }}</mat-option>
                     </mat-select>
                 </mat-form-field>
-                <button type="submit" [disabled]="!maintenanceForm.valid">Dar de Baja</button>
+                <button type="submit" [disabled]="!maintenanceForm.valid">{{ 'ADMIN.MAINTENANCE_FORM.SUBMIT' | translate }}</button>
             </form>
-            <h2>Dar de Alta una Silla</h2>
+            <h2>{{ 'ADMIN.AVAILABLE_FORM.TITLE' | translate }}</h2>
             <form [formGroup]="availableForm" (ngSubmit)="submitAvailableForm()">
                 <mat-form-field>
                     <mat-select formControlName="chairName" (selectionChange)="filterMyOptions($event)">
-                        <mat-option value="">--</mat-option>
+                        <mat-option value="">{{ 'ADMIN.AVAILABLE_FORM.DEFAULT_OPTION' | translate }}</mat-option>
                         <mat-option *ngFor="let chair of chairs" [value]="chair.description">{{ chair.description }}</mat-option>
                     </mat-select>
                 </mat-form-field>
-                <button type="submit" [disabled]="!availableForm.valid">Dar de Baja</button>
+                <button type="submit" [disabled]="!availableForm.valid">{{ 'ADMIN.AVAILABLE_FORM.SUBMIT' | translate }}</button>
             </form>
-            <h2>Update Price for a Day</h2>
+            <h2>{{ 'ADMIN.PRICE_FORM.TITLE' | translate }}</h2>
             <form [formGroup]="priceForm" (ngSubmit)="submitPriceForm()">
               <div class="form-group">
-                <label for="dayOfWeek">Day of the Week</label>
+                <label for="dayOfWeek">{{ 'ADMIN.PRICE_FORM.DAY_LABEL' | translate }}</label>
                 <select id="dayOfWeek" formControlName="dayOfWeek" required>
                   <option *ngFor="let day of daysOfWeek" [value]="day">{{ day }}</option>
                 </select>
               </div>
               
               <div class="form-group">
-                <label for="price">Price</label>
+                <label for="price">{{ 'ADMIN.PRICE_FORM.PRICE_LABEL' | translate }}</label>
                 <input id="price" type="number" formControlName="price" required min="0">
               </div>
               
-              <button type="submit" [disabled]="!priceForm.valid">Update Price</button>
+              <button type="submit" [disabled]="!priceForm.valid">{{ 'ADMIN.PRICE_FORM.SUBMIT' | translate }}</button>
             </form>
         </div>
         <div class="price-form-container">

@@ -2,13 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { TranslateModule } from '@ngx-translate/core';
+import { ToolbarComponent } from 'src/app/shared/toolbar/toolbar.component';
 
 @Component({
   selector: 'app-success',
-  template: `<p>Payment Successful! You will be redirected shortly...</p>`,
-})
+  templateUrl: './success.component.html',
+  styleUrl: './success.component.scss',
+  standalone: true,
+  imports: [TranslateModule,ToolbarComponent]
+  }
+)
 export class SuccessComponent implements OnInit {
-  constructor(private route: ActivatedRoute, private http: HttpClient, private router: Router) {}
+  constructor(private route: ActivatedRoute, private http: HttpClient, private router: Router) { }
 
   ngOnInit() {
     const sessionId = this.route.snapshot.queryParamMap.get('session_id');

@@ -21,8 +21,6 @@
     background-color: #ffffff;
     border: none;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -125,6 +123,7 @@ mat-accordion.full-height {
 
 .header>.translate {
     justify-items: end;
+    margin-right: 10px;
 }
 
 mat-panel-description {
