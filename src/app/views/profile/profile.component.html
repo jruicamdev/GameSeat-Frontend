@@ -3,15 +3,15 @@
     <button mat-icon-button (click)="goBack()">
       <mat-icon>arrow_back</mat-icon>
     </button>
-    <button mat-icon-button class="translate">
+    <button mat-icon-button class="translate" (click)="toggleLanguage()">
       <mat-icon>translate</mat-icon>
     </button>
   </div>
   <div class="main-content">
     <div class="left-panel">
-      <h3>Selecciona tu Foto de Perfil</h3>
+      <h3>{{ 'PROFILE.SELECT_PROFILE_PICTURE' | translate }}</h3>
       <div class="large-image">
-        <img [src]="imageSrc" alt="Perfil Actual" />
+        <img [src]="imageSrc" alt="{{ 'PROFILE.CURRENT_PROFILE' | translate }}" />
       </div>
       <div class="grid">
         <div
@@ -19,42 +19,45 @@
           *ngFor="let image of images"
           [class.selected]="image === selectedImage"
           (click)="selectImage(image)">
-          <img alt="Perfil" [src]="image" />
+          <img alt="{{ 'PROFILE.PROFILE_PICTURE' | translate }}" [src]="image" />
         </div>
       </div>
-      <button class="action-button"
-        (click)="sendSelectedImage()">Acción</button>
+      <button class="action-button" (click)="sendSelectedImage()">
+        {{ 'PROFILE.ACTION' | translate }}
+      </button>
     </div>
     <div class="right-panel">
-      <h3>Mis Reservas</h3>
+      <h3>{{ 'PROFILE.MY_RESERVATIONS' | translate }}</h3>
       <ng-container *ngIf="dataSource && dataSource.data.length > 0; else noReservationsTemplate">
         <mat-accordion class="full-height">
           <mat-expansion-panel *ngFor="let reservation of dataSource.data" hideToggle>
             <mat-expansion-panel-header>
               <mat-panel-title>
-                Reserva #{{reservation.id}}
+                {{ 'PROFILE.RESERVATION' | translate }} #{{reservation.id}}
               </mat-panel-title>
               <mat-panel-description>
-                Estado: {{reservation.status}}
-                <button (click)="getStripeURL(reservation.totalAmount,reservation.id)" *ngIf="reservation.status == 'Pending'" mat-raised-button class="payment-button" >Pagar</button>
+                {{ 'PROFILE.STATUS' | translate }}: {{reservation.status}}
+                <button (click)="getStripeURL(reservation.totalAmount,reservation.id)" *ngIf="reservation.status == 'Pending'" mat-raised-button class="payment-button">
+                  {{ 'PROFILE.PAY' | translate }}
+                </button>
               </mat-panel-description>
             </mat-expansion-panel-header>
             <div class="reservation-summary">
-              <p>Fecha: {{reservation.startTime }}</p>
-              <p>Fin: {{reservation.endTime }}</p>
-              <p>Precio: {{reservation.totalAmount}}</p>
-              <p *ngIf="reservation.status !== 'confirmed'">
-                Tiempo restante: {{ countdowns[reservation.id] | number: '1.0-0' }} segundos
-              </p>
-              <button *ngIf="reservation.status == 'Pending'" mat-raised-button class="payment-button">Pagar</button>
+              <p>{{ 'PROFILE.DATE' | translate }}: {{reservation.date }}</p>
+              <p>{{ 'PROFILE.START_TIME' | translate }}: {{reservation.startTime }}</p>
+              <p>{{ 'PROFILE.END_TIME' | translate }}: {{reservation.endTime }}</p>
+              <p>{{ 'PROFILE.PRICE' | translate }}: {{reservation.totalAmount}} €</p>
+              <button (click)="getStripeURL(reservation.totalAmount,reservation.id)" *ngIf="reservation.status == 'Pending'" mat-raised-button class="payment-button">
+                {{ 'PROFILE.PAY' | translate }}
+              </button>
             </div>
           </mat-expansion-panel>
         </mat-accordion>
       </ng-container>
       <ng-template #noReservationsTemplate>
         <div class="no-reservations">
-          <p>No tienes reservas en este momento.</p>
-          <p>Todavía estás a tiempo de hacer una <a href="#">Haz clic aquí para reservar una silla</a></p>
+          <p>{{ 'PROFILE.NO_RESERVATIONS' | translate }}</p>
+          <p>{{ 'PROFILE.RESERVATION_LINK' | translate }}</p>
         </div>
       </ng-template>
     </div>

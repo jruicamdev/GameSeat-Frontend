@@ -1,10 +1,11 @@
+@import '../../../assets/styles/theme-colors.scss';
+
 .background {
-    background-color: #272626;
+    background-color: $background-color;
     height: 100vh;
 }
 
 .container {
-    background-color: #272626;
     color: #ffffff;
     display: flex;
     justify-content: center;
@@ -14,7 +15,7 @@
 }
 
 .auth-container {
-    background: #232323;
+    background: $secondary-color;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
@@ -32,7 +33,6 @@ input[matInput] {
     padding: 5px;
     border: 2px solid #555;
     border-radius: 4px;
-    background-color: #333;
     color: #fff;
     transition: border-color 0.3s;
 }
@@ -44,7 +44,7 @@ input[matInput]:focus {
 
 /* Ajustes para los labels */
 mat-label {
-    color: #bbb;
+    color: $text-color;
 }
 
 /* Error message styling */

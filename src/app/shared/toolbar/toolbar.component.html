@@ -1,11 +1,15 @@
 <mat-toolbar>
     <div class="titulos">
-        <h4 (click)="navigateToHome()">Inicio</h4>
-        <h4 (click)="navigateToLogin()">Login</h4>
+        <button mat-icon-button (click)="navigateToHome()">
+            <mat-icon>home</mat-icon>
+        </button>
     </div>
     <div class="buttons">
-        <button mat-icon-button>
+        <button mat-icon-button (click)="toggleLanguage()">
             <mat-icon>translate</mat-icon>
+        </button>
+        <button mat-icon-button (click)="navigateToLogin()">
+            <mat-icon>login</mat-icon>
         </button>
     </div>
 </mat-toolbar>

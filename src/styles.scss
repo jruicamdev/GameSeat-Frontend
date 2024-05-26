@@ -1,3 +1,5 @@
+@import './assets/styles/theme-colors.scss';
+
 * {
     font-family: 'Iceland', 'Oswald',sans-serif;
 }
@@ -12,4 +14,7 @@
 }
 body{
     margin: 0;
+    // background-color: $background-color;
+    // color: $text-color;
+    font-family: 'Iceland', 'Oswald',sans-serif;
 }

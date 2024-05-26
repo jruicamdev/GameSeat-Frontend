@@ -1,75 +1,60 @@
 <div class="background">
   <app-toolbar></app-toolbar>
   <div class="container">
-    <h2>Inicia Sesión o Crea una Cuenta</h2>
-    <h3>Y podrás disfrutar de una experiencia inolvidable</h3>
+    <h2>{{ 'AUTH.TITLE' | translate }}</h2>
+    <h3>{{ 'AUTH.SUBTITLE' | translate }}</h3>
     <div class="auth-container">
-      <div class="form-container" [class.show-login]="showLogin"
-        [@flipState]="flipState">
-        <form [formGroup]="logInForm" (ngSubmit)="logIn()"
-          *ngIf="showLogin; else signUpFormTemplate" class="front">
+      <div class="form-container" [class.show-login]="showLogin" [@flipState]="flipState">
+        <form [formGroup]="logInForm" (ngSubmit)="logIn()" *ngIf="showLogin; else signUpFormTemplate" class="front">
           <div class="field">
             <mat-form-field appearance="outline">
-              <mat-label>Email</mat-label>
+              <mat-label>{{ 'AUTH.EMAIL' | translate }}</mat-label>
               <input matInput formControlName="email" />
-              <mat-error *ngIf="signUpForm.get('email')?.errors?.['email']">Email not valid</mat-error>
+              <mat-error *ngIf="signUpForm.get('email')?.errors?.['email']">{{ 'AUTH.EMAIL_ERROR' | translate }}</mat-error>
             </mat-form-field>
           </div>
-
           <div>
             <mat-form-field appearance="outline">
-              <mat-label>Enter your password</mat-label>
-              <input
-                matInput
-                [type]="hide ? 'password' : 'text'"
-                formControlName="password" />
-              <mat-error>This field can't be empty</mat-error>
+              <mat-label>{{ 'AUTH.PASSWORD' | translate }}</mat-label>
+              <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" />
+              <mat-error>{{ 'AUTH.FIELD_REQUIRED' | translate }}</mat-error>
             </mat-form-field>
           </div>
-
           <div>
-            <button mat-flat-button color="primary" type="submit" [disabled]="!logInForm.valid">Log
-              in</button>
+            <button mat-flat-button color="primary" type="submit" [disabled]="!logInForm.valid">{{ 'AUTH.LOGIN' | translate }}</button>
           </div>
-          <p>O</p>
-          <button type="button" (click)="toggleForm()">Crear una cuenta</button>
+          <p>{{ 'AUTH.OR' | translate }}</p>
+          <button type="button" (click)="toggleForm()">{{ 'AUTH.CREATE_ACCOUNT' | translate }}</button>
         </form>
       </div>
       <ng-template #signUpFormTemplate>
-
-        <form *ngIf="!showLogin" [formGroup]="signUpForm" (ngSubmit)="signUp()"
-          class="back">
+        <form *ngIf="!showLogin" [formGroup]="signUpForm" (ngSubmit)="signUp()" class="back">
           <div>
             <mat-form-field appearance="outline">
-              <mat-label>Usuario</mat-label>
+              <mat-label>{{ 'AUTH.USERNAME' | translate }}</mat-label>
               <input matInput formControlName="userName" />
-              <mat-error>This field is required</mat-error>
+              <mat-error>{{ 'AUTH.FIELD_REQUIRED' | translate }}</mat-error>
             </mat-form-field>
           </div>
           <div>
             <mat-form-field appearance="outline">
-              <mat-label>Email</mat-label>
+              <mat-label>{{ 'AUTH.EMAIL' | translate }}</mat-label>
               <input matInput formControlName="email" />
             </mat-form-field>
           </div>
-
           <div>
             <mat-form-field appearance="outline">
-              <mat-label>Enter your password</mat-label>
-              <input
-                matInput
-                [type]="hide ? 'password' : 'text'"
-                formControlName="password" />
-              <mat-error *ngIf="signUpForm.get('password')?.errors?.['required']">This field is required</mat-error>
-              <mat-error *ngIf="signUpForm.get('password')?.errors?.['minLength']">Password must be at least 6 characters</mat-error>
+              <mat-label>{{ 'AUTH.PASSWORD' | translate }}</mat-label>
+              <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" />
+              <mat-error *ngIf="signUpForm.get('password')?.errors?.['required']">{{ 'AUTH.FIELD_REQUIRED' | translate }}</mat-error>
+              <mat-error *ngIf="signUpForm.get('password')?.errors?.['minLength']">{{ 'AUTH.PASSWORD_MINLENGTH' | translate }}</mat-error>
             </mat-form-field>
           </div>
-
           <div>
-            <button mat-flat-button color="primary" type="submit" [disabled]="!signUpForm.valid">Sign up</button>
+            <button mat-flat-button color="primary" type="submit" [disabled]="!signUpForm.valid">{{ 'AUTH.SIGNUP' | translate }}</button>
           </div>
-          <p>O</p>
-          <button type="button" (click)="toggleForm()">Iniciar Sesión</button>
+          <p>{{ 'AUTH.OR' | translate }}</p>
+          <button type="button" (click)="toggleForm()">{{ 'AUTH.LOGIN' | translate }}</button>
         </form>
       </ng-template>
     </div>

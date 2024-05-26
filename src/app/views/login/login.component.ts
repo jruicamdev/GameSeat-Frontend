@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { ToolbarComponent } from 'src/app/shared/toolbar/toolbar.component';
 import { UserService } from 'src/app/services/user.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 
@@ -35,7 +36,8 @@ export interface SignUpForm {
     RouterModule,
     NgIf,
     MatSnackBarModule,
-    ToolbarComponent],
+    ToolbarComponent,
+  TranslateModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
   animations: [

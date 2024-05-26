@@ -1,6 +1,6 @@
 import { CommonModule, DatePipe, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MatButton } from '@angular/material/button';
+import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -14,24 +14,17 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { Subscription, interval } from 'rxjs';
 import { PaymentsService } from 'src/app/services/payments.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [MatIcon, MatButton, NgFor, MatExpansionModule, NgIf, MatPaginator, DatePipe, CommonModule],
+  imports: [MatIcon, MatButton, NgFor, MatExpansionModule, NgIf, MatPaginator, DatePipe, CommonModule, MatButtonModule,TranslateModule],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit, OnDestroy {
-  constructor(
-    private _router: Router,
-    private userService: UserService,
-    public dialog: MatDialog,
-    private _snackBar: MatSnackBar,
-    private reservationService: ReservationService,
-    private paymentService: PaymentsService
-  ) { }
-
+  currentLanguage = 'es';
   reservations: Reservation[] = [];
   dataSource = new MatTableDataSource<Reservation>();
   panelOpenState = false;
@@ -41,10 +34,27 @@ export class ProfileComponent implements OnInit, OnDestroy {
   countdowns: { [key: number]: number } = {};
   countdownSubscriptions: { [key: number]: Subscription } = {};
 
+  constructor(
+    private _router: Router,
+    private userService: UserService,
+    public dialog: MatDialog,
+    private _snackBar: MatSnackBar,
+    private reservationService: ReservationService,
+    private paymentService: PaymentsService,
+    private translate : TranslateService
+  ) { 
+    this.translate.setDefaultLang(this.currentLanguage);
+  }
+
   ngOnInit(): void {
     this.getUserProfileImage();
     this.getAllProfileImages();
     this.getReservationForUser();
+  }
+
+  toggleLanguage() {
+    this.currentLanguage = this.currentLanguage === 'en' ? 'es' : 'en';
+    this.translate.use(this.currentLanguage);
   }
 
   ngOnDestroy(): void {

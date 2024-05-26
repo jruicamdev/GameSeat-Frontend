@@ -1,4 +1,4 @@
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButton, MatButtonModule } from '@angular/material/button';
@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Chart, registerables } from 'chart.js';
 import { Chair } from 'src/app/models/chair';
 import { AdminService } from 'src/app/services/admin.service';
@@ -24,9 +25,11 @@ import { UserService } from 'src/app/services/user.service';
   imports: [MatIcon,
     MatInputModule,
     ReactiveFormsModule,
-    FormsModule, MatOption, NgFor, MatFormFieldModule, 
+    FormsModule, MatOption, NgFor, MatFormFieldModule,
     MatSelectModule,
-    MatButtonModule,],
+    MatButtonModule,
+    TranslateModule,
+    NgIf],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss'
 })
@@ -37,11 +40,15 @@ export class AdminComponent implements OnInit {
   filteredChairs: Chair[] = []; // Lista filtrada
   priceForm: FormGroup;
   daysOfWeek: string[] = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
+  currentLanguage = 'es';
+  showChart: boolean = true;
+  schedules: any[] = [];
+
 
   constructor(
     private userService: UserService, private router: Router, private _snackBar: MatSnackBar,
     private authService: AuthService, private adminService: AdminService, private chairService: ChairService,
-    private reservationService: ReservationService, private fb: FormBuilder
+    private reservationService: ReservationService, private fb: FormBuilder, private translate: TranslateService
   ) {
     Chart.register(...registerables);
     this.maintenanceForm = this.fb.group({
@@ -54,11 +61,35 @@ export class AdminComponent implements OnInit {
       dayOfWeek: ['', Validators.required],
       price: ['', [Validators.required, Validators.min(0)]]
     });
+    this.translate.setDefaultLang(this.currentLanguage);
+
   }
   ngOnInit() {
     this.getChairs();
     this.isUserAdmin();
     this.createReservationsChart();
+    this.getEstablishmentHours();
+  }
+  toggleView() {
+    this.showChart = !this.showChart;
+    this.createReservationsChart();
+  }
+
+  toggleLanguage() {
+    this.currentLanguage = this.currentLanguage === 'en' ? 'es' : 'en';
+    this.translate.use(this.currentLanguage);
+  }
+  getEstablishmentHours() {
+    this.adminService.getEstablishmentHours().subscribe(data => {
+      this.schedules = data.map((item: any) => {
+        return {
+          DayOfWeek: item.dayOfWeek,
+          OpeningTime: item.openingTime,
+          ClosingTime: item.closingTime,
+          PricePerHour: item.pricePerHour
+        };
+      });
+    });
   }
 
   goBack() {
@@ -104,15 +135,30 @@ export class AdminComponent implements OnInit {
           datasets: [{
             label: 'Reservas',
             data: counts,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
+            backgroundColor: 'rgba(54, 162, 235, 0.6)', // Color de fondo con mayor opacidad
+            borderColor: 'rgba(54, 162, 235, 1)', // Color de borde
             borderWidth: 1
           }]
         },
         options: {
           scales: {
             y: {
-              beginAtZero: true
+              beginAtZero: true,
+              ticks: {
+                color: 'rgba(255, 255, 255, 1)' // Color de las etiquetas del eje y
+              }
+            },
+            x: {
+              ticks: {
+                color: 'rgba(255, 255, 255, 1)' // Color de las etiquetas del eje x
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              labels: {
+                color: 'rgba(255, 255, 255, 1)' // Color de la leyenda
+              }
             }
           }
         }
