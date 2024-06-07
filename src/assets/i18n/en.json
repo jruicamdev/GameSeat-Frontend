@@ -120,26 +120,51 @@
         "RESERVATION_LINK": "You're still on time to make one. <a href='#'>Click here to reserve a chair</a>",
         "NO_IMAGE_SELECTED": "No image selected",
         "CLOSE": "Close",
-        "IMAGE_UPDATED": "Image updated"
+        "IMAGE_UPDATED": "Image updated",
+        "CANCEL": "Cancel"
     },
     "ADMIN": {
         "TITLE": "Admin Dashboard",
         "RESERVATIONS_PER_MONTH": "Reservations per Month",
         "MAINTENANCE_FORM": {
-          "TITLE": "Set Chair to Maintenance",
-          "DEFAULT_OPTION": "--",
-          "SUBMIT": "Set to Maintenance"
+            "TITLE": "Set Chair to Maintenance",
+            "DEFAULT_OPTION": "--",
+            "SUBMIT": "Set to Maintenance"
         },
         "AVAILABLE_FORM": {
-          "TITLE": "Set Chair to Available",
-          "DEFAULT_OPTION": "--",
-          "SUBMIT": "Set to Available"
+            "TITLE": "Set Chair to Available",
+            "DEFAULT_OPTION": "--",
+            "SUBMIT": "Set to Available"
         },
         "PRICE_FORM": {
-          "TITLE": "Update Price for a Day",
-          "DAY_LABEL": "Day of the Week",
-          "PRICE_LABEL": "Price",
-          "SUBMIT": "Update Price"
+            "TITLE": "Update Price for a Day",
+            "DAY_LABEL": "Day of the Week",
+            "PRICE_LABEL": "Price",
+            "SUBMIT": "Update Price"
         }
-      }
+    },
+    "SNACKBARS": {
+        "RESERVATION_CREATED_SUCCESS": "Reservation created successfully",
+        "CHAIR_ALREADY_RESERVED": "This chair is already reserved at this time",
+        "ERROR_CREATING_RESERVATION": "Error creating reservation",
+        "START_END_TIME_SAME": "Start and end time cannot be the same",
+        "FORM_NOT_VALID": "Form is not valid",
+        "CLOSE": "Close",
+        "CHOOSE_IMAGE": "Choose an image",
+        "IMAGE_UPDATED": "Image updated successfully",
+        "RESERVATION_CANCELLED": "Reservation {{id}} cancelled successfully",
+        "ERROR_CANCELLING_RESERVATION": "Error cancelling the reservation",
+        "SIGNUP_SUCCESS": "Sign up successful",
+        "INVALID_REGISTRATION": "Invalid registration",
+        "LOGIN_SUCCESS": "Login successful",
+        "LOGIN_FAILED": "Login failed",
+        "LOGIN_ERROR": "Error logging in",
+        "FIELD_REQUIRED": "This field is required",
+        "ENTER_VALID_EMAIL": "Enter a valid email",
+        "NO_ACCESS": "You cannot access this page",
+        "CHAIRS_AVAILABLE": "Chairs {{chairNames}} available",
+        "PRICE_UPDATED": "Price updated successfully",
+        "ERROR_UPDATING_PRICE": "Error updating the price",
+        "PAYMENT-SUCCESS" : "Payment Verified correctly"
+    }
 }

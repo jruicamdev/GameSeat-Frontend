@@ -52,22 +52,20 @@
             <h2>{{ 'ADMIN.MAINTENANCE_FORM.TITLE' | translate }}</h2>
             <form [formGroup]="maintenanceForm" (ngSubmit)="submitMaintenanceForm()">
                 <mat-form-field>
-                    <mat-select formControlName="chairName" (selectionChange)="filterMyOptions($event)">
-                        <mat-option value="">{{ 'ADMIN.MAINTENANCE_FORM.DEFAULT_OPTION' | translate }}</mat-option>
-                        <mat-option *ngFor="let chair of chairs" [value]="chair.description">{{ chair.description }}</mat-option>
+                    <mat-select formControlName="chairNames" multiple>
+                        <mat-option *ngFor="let chair of availableChairs" [value]="chair.description">{{ chair.description }}</mat-option>
                     </mat-select>
                 </mat-form-field>
                 <button type="submit" [disabled]="!maintenanceForm.valid">{{ 'ADMIN.MAINTENANCE_FORM.SUBMIT' | translate }}</button>
             </form>
             <h2>{{ 'ADMIN.AVAILABLE_FORM.TITLE' | translate }}</h2>
             <form [formGroup]="availableForm" (ngSubmit)="submitAvailableForm()">
-                <mat-form-field>
-                    <mat-select formControlName="chairName" (selectionChange)="filterMyOptions($event)">
-                        <mat-option value="">{{ 'ADMIN.AVAILABLE_FORM.DEFAULT_OPTION' | translate }}</mat-option>
-                        <mat-option *ngFor="let chair of chairs" [value]="chair.description">{{ chair.description }}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <button type="submit" [disabled]="!availableForm.valid">{{ 'ADMIN.AVAILABLE_FORM.SUBMIT' | translate }}</button>
+              <mat-form-field>
+                <mat-select formControlName="chairNames" multiple>
+                  <mat-option *ngFor="let chair of maintenanceChairs" [value]="chair.description">{{ chair.description }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <button type="submit" [disabled]="!availableForm.valid">{{ 'ADMIN.AVAILABLE_FORM.SUBMIT' | translate }}</button>
             </form>
             <h2>{{ 'ADMIN.PRICE_FORM.TITLE' | translate }}</h2>
             <form [formGroup]="priceForm" (ngSubmit)="submitPriceForm()">

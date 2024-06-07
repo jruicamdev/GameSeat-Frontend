@@ -25,9 +25,13 @@ export class ChairService {
     this.http.get<Chair[]>(`${environment.api_url}`)
   }
 
-  updateChairStatus(id: number, isMaintenance: boolean): Observable<void> {
-    const url = `${environment.api_url}chairs/${id}/status`;
-    return this.http.put<void>(url, isMaintenance, {
+  updateChairStatus(ids: number[], isMaintenance: boolean): Observable<void> {
+    const body = {
+      Ids: ids,
+      IsMaintenance: isMaintenance
+    };
+
+    return this.http.put<void>(environment.api_url, body, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })

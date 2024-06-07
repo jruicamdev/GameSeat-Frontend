@@ -22,7 +22,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
-
 @Component({
   selector: 'app-reservations',
   standalone: true,
@@ -50,14 +49,13 @@ export class ReservationsComponent {
   profileImage: string = '';
   currentLanguage = 'es';
 
-
   constructor(private chairService: ChairService, private _snackBar: MatSnackBar,
      private reservationService: ReservationService, private fb: FormBuilder, 
      private authService: AuthService, private translateService : TranslateService, 
-     private userService: UserService, private router: Router,) {
+     private userService: UserService, private router: Router) {
     this.minDate = new Date();
     this.minDate.setDate(this.minDate.getDate() + 1);
-    translateService.setDefaultLang(this.currentLanguage) 
+    translateService.setDefaultLang(this.currentLanguage);
   }
 
   ngOnInit(): void {
@@ -92,6 +90,7 @@ export class ReservationsComponent {
   private async isUserAdmin() {
     this.isAdmin = await this.userService.isUserAdmin();
   }
+  
   private createChairGroups() {
     for (let i = 0; i < this.chairs.length; i += 8) {
       this.chairGroups.push(this.chairs.slice(i, i + 8));
@@ -103,7 +102,6 @@ export class ReservationsComponent {
     this.reservationService.getReservationsByDate(formValues.selectedDate, formValues.startTime, formValues.endTime)
       .subscribe(reservations => {
         this.updateChairStatus(reservations);
-        console.log(reservations);
       }, error => {
         console.error('Error: ' + error);
       });
@@ -151,36 +149,45 @@ export class ReservationsComponent {
           date: localISOTime,
           status: 'Pending'
         };
-        console.log(reservationData);
         this.reservationService.createReservation(reservationData).subscribe({
           next: (response) => {
-            this._snackBar.open('Reservation created successfully', "Cerrar", { duration: 3000 });
+            this.translateService.get('SNACKBARS.RESERVATION_CREATED_SUCCESS').subscribe((translatedMessage: string) => {
+              this._snackBar.open(translatedMessage, this.translateService.instant('CLOSE'), { duration: 3000 });
+            });
           },
           error: (error) => {
-            console.log(error);
             if (error.error && typeof error.error === 'string' && error.error.includes('chair.reserved')) {
-              this._snackBar.open('Esta silla ya esta reservada a esta hora', "Cerrar", { duration: 3000 });
+              this.translateService.get('SNACKBARS.CHAIR_ALREADY_RESERVED').subscribe((translatedMessage: string) => {
+                this._snackBar.open(translatedMessage, this.translateService.instant('CLOSE'), { duration: 3000 });
+              });
             } else {
-              this._snackBar.open('Error creating reservation', "Cerrar", { duration: 3000 });
+              this.translateService.get('SNACKBARS.ERROR_CREATING_RESERVATION').subscribe((translatedMessage: string) => {
+                this._snackBar.open(translatedMessage, this.translateService.instant('CLOSE'), { duration: 3000 });
+              });
             }
           }
         });
       } else {
-        this._snackBar.open("La hora de comienzo y final no pueden ser iguales", "Cerrar", { duration: 3000 })
+        this.translateService.get('SNACKBARS.START_END_TIME_SAME').subscribe((translatedMessage: string) => {
+          this._snackBar.open(translatedMessage, this.translateService.instant('CLOSE'), { duration: 3000 });
+        });
       }
     } else {
-      this._snackBar.open('Formulario no valido', "Cerrar", { duration: 3000 });
+      this.translateService.get('SNACKBARS.FORM_NOT_VALID').subscribe((translatedMessage: string) => {
+        this._snackBar.open(translatedMessage, this.translateService.instant('CLOSE'), { duration: 3000 });
+      });
     }
   }
 
   logout() {
     this.authService.logOut();
   }
+  
   navigateToProfile() {
     this.router.navigate(['/profile']);
   }
+  
   navigateToAdmin() {
     this.router.navigate(['/admin']);
   }
-
 }

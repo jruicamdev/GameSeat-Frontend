@@ -18,18 +18,22 @@ import { ChairService } from 'src/app/services/chair.service';
 import { ReservationService } from 'src/app/services/reservation.service';
 import { UserService } from 'src/app/services/user.service';
 
-
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [MatIcon,
+  imports: [
+    MatIcon,
     MatInputModule,
     ReactiveFormsModule,
-    FormsModule, MatOption, NgFor, MatFormFieldModule,
+    FormsModule,
+    MatOption,
+    NgFor,
+    MatFormFieldModule,
     MatSelectModule,
     MatButtonModule,
     TranslateModule,
-    NgIf],
+    NgIf
+  ],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss'
 })
@@ -37,39 +41,47 @@ export class AdminComponent implements OnInit {
   maintenanceForm: FormGroup;
   availableForm: FormGroup;
   chairs: Chair[] = [];
-  filteredChairs: Chair[] = []; // Lista filtrada
   priceForm: FormGroup;
   daysOfWeek: string[] = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
   currentLanguage = 'es';
   showChart: boolean = true;
   schedules: any[] = [];
 
+  maintenanceChairs: Chair[] = [];
+  availableChairs: Chair[] = [];
 
   constructor(
-    private userService: UserService, private router: Router, private _snackBar: MatSnackBar,
-    private authService: AuthService, private adminService: AdminService, private chairService: ChairService,
-    private reservationService: ReservationService, private fb: FormBuilder, private translate: TranslateService
+    private userService: UserService,
+    private router: Router,
+    private _snackBar: MatSnackBar,
+    private authService: AuthService,
+    private adminService: AdminService,
+    private chairService: ChairService,
+    private reservationService: ReservationService,
+    private fb: FormBuilder,
+    private translate: TranslateService
   ) {
     Chart.register(...registerables);
     this.maintenanceForm = this.fb.group({
-      chairName: ['', Validators.required]
+      chairNames: [[], Validators.required]
     });
     this.availableForm = this.fb.group({
-      chairName: ['', Validators.required]
+      chairNames: [[], Validators.required]
     });
     this.priceForm = this.fb.group({
       dayOfWeek: ['', Validators.required],
       price: ['', [Validators.required, Validators.min(0)]]
     });
     this.translate.setDefaultLang(this.currentLanguage);
-
   }
+
   ngOnInit() {
     this.getChairs();
     this.isUserAdmin();
     this.createReservationsChart();
     this.getEstablishmentHours();
   }
+
   toggleView() {
     this.showChart = !this.showChart;
     this.createReservationsChart();
@@ -79,6 +91,7 @@ export class AdminComponent implements OnInit {
     this.currentLanguage = this.currentLanguage === 'en' ? 'es' : 'en';
     this.translate.use(this.currentLanguage);
   }
+
   getEstablishmentHours() {
     this.adminService.getEstablishmentHours().subscribe(data => {
       this.schedules = data.map((item: any) => {
@@ -97,10 +110,12 @@ export class AdminComponent implements OnInit {
   }
 
   private async isUserAdmin() {
-    var isAdmin = await this.userService.isUserAdmin();
+    const isAdmin = await this.userService.isUserAdmin();
     if (!isAdmin) {
       this.router.navigate(['/reservations']);
-      this._snackBar.open('No puedes acceder a esta pagina', "Cerrar", { duration: 3000 });
+      this.translate.get('SNACKBARS.NO_ACCESS').subscribe((translatedMessage: string) => {
+        this._snackBar.open(translatedMessage, this.translate.instant('SNACKBARS.CLOSE'), { duration: 3000 });
+      });
     }
   }
 
@@ -115,8 +130,6 @@ export class AdminComponent implements OnInit {
       document.body.removeChild(a);
     });
   }
-
-
 
   createReservationsChart() {
     this.reservationService.getAllReservation().subscribe(data => {
@@ -182,63 +195,67 @@ export class AdminComponent implements OnInit {
     this.authService.logOut();
   }
 
-  //Cambia a MAINTENANCE EL ESTADO DE UNA SILLA
+  // Cambia a MAINTENANCE el estado de una silla
   submitMaintenanceForm() {
     if (this.maintenanceForm.valid) {
-      const chairName = this.maintenanceForm.get('chairName')!.value;
-      const chair = this.chairs.find(c => c.description === chairName);
+      const chairNames = this.maintenanceForm.get('chairNames')!.value;
+      const chairIds = this.chairs
+        .filter(c => chairNames.includes(c.description))
+        .map(c => c.id);
 
-      if (chair) {
-        this.chairService.updateChairStatus(chair.id, true).subscribe(
+      if (chairIds.length > 0) {
+        this.chairService.updateChairStatus(chairIds, false).subscribe(
           () => {
-            this._snackBar.open(`Silla ${{ chairName }} puesta en mantenimiento`, "Cerrar", { duration: 3000 });
-            // Manejar el éxito de la actualización, como mostrar un mensaje o redirigir
+            this.translate.get('SNACKBARS.CHAIRS_AVAILABLE', { chairNames: chairNames.join(', ') }).subscribe((translatedMessage: string) => {
+              this._snackBar.open(translatedMessage, this.translate.instant('SNACKBARS.CLOSE'), { duration: 3000 });
+            });
           },
           error => {
             console.error('Error updating chair status', error);
-            // Manejar el error, como mostrar un mensaje al usuario
           }
         );
       } else {
-        console.error('Chair not found');
-        // Manejar el caso cuando la silla no se encuentra
+        console.error('Chairs not found');
       }
     }
   }
 
-  //Cambia a AVAILABLE EL ESTADO DE UNA SILLA
+  // Cambia a AVAILABLE el estado de una silla
   submitAvailableForm() {
     if (this.availableForm.valid) {
-      const chairName = this.availableForm.get('chairName')!.value;
-      const chair = this.chairs.find(c => c.description === chairName);
+      const chairNames = this.availableForm.get('chairNames')!.value;
+      const chairIds = this.chairs
+        .filter(c => chairNames.includes(c.description))
+        .map(c => c.id);
 
-      if (chair) {
-        this.chairService.updateChairStatus(chair.id, false).subscribe(
+      if (chairIds.length > 0) {
+        this.chairService.updateChairStatus(chairIds, false).subscribe(
           () => {
-            this._snackBar.open(`Silla ${{ chairName }} disponible`, "Cerrar", { duration: 3000 });
-            // Manejar el éxito de la actualización, como mostrar un mensaje o redirigir
+            this.translate.get('SNACKBARS.CHAIRS_AVAILABLE', { chairNames: chairNames.join(', ') }).subscribe((translatedMessage: string) => {
+              this._snackBar.open(translatedMessage, this.translate.instant('SNACKBARS.CLOSE'), { duration: 3000 });
+            });
           },
           error => {
             console.error('Error updating chair status', error);
-            // Manejar el error, como mostrar un mensaje al usuario
           }
         );
       } else {
-        console.error('Chair not found');
-        // Manejar el caso cuando la silla no se encuentra
+        console.error('Chairs not found');
       }
     }
   }
 
   getChairs() {
     this.chairService.getChairs().subscribe((chairs: Chair[]) => {
+      chairs.forEach(chair => {
+        if (chair.status === 'maintenance') {
+          this.maintenanceChairs.push(chair);
+        } else {
+          this.availableChairs.push(chair);
+        }
+      });
       this.chairs = chairs;
-      this.filteredChairs = chairs; // Inicializar la lista filtrada
     });
-  }
-
-  filterMyOptions(event: MatSelectChange) {
-    this.maintenanceForm.patchValue({ chairName: event.value });
   }
 
   submitPriceForm() {
@@ -248,16 +265,16 @@ export class AdminComponent implements OnInit {
 
       this.adminService.updatePriceForDay(dayOfWeek, price).subscribe(
         () => {
-          this._snackBar.open('Precio Actualizado', "Cerrar", { duration: 3000 });
-          // Manejar el éxito de la actualización, como mostrar un mensaje o redirigir
+          this.translate.get('SNACKBARS.PRICE_UPDATED').subscribe((translatedMessage: string) => {
+            this._snackBar.open(translatedMessage, this.translate.instant('SNACKBARS.CLOSE'), { duration: 3000 });
+          });
         },
         error => {
-          this._snackBar.open('Error al actualizar el precio', "Cerrar", { duration: 3000 });
-          // Manejar el error, como mostrar un mensaje al usuario
+          this.translate.get('SNACKBARS.ERROR_UPDATING_PRICE').subscribe((translatedMessage: string) => {
+            this._snackBar.open(translatedMessage, this.translate.instant('SNACKBARS.CLOSE'), { duration: 3000 });
+          });
         }
       );
     }
   }
 }
-
-
