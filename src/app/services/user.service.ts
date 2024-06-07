@@ -94,7 +94,6 @@ export class UserService {
 
       try {
         const isAdmin = await this.http.get<boolean>(`${environment.api_url}users/admin`, { headers }).toPromise();
-        console.log(isAdmin);
         return isAdmin!;
       } catch (error) {
         console.error('Error checking admin status:', error);

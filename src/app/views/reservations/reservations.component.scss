@@ -1,8 +1,10 @@
+@import '../../../assets/styles/theme-colors.scss';
 .container {
     position: relative;
     padding-left: 10px;
     height: 100%;
     width: 100%;
+    background-color: #5a0202d5;
 }
 
 
@@ -25,7 +27,7 @@
     justify-items: center;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: 1.25fr 0.5fr 1.25fr;
-    background-color: #ddd;
+    background-color: #ede8e8d5;
 }
 
 .chair-description {
@@ -44,10 +46,9 @@
 .header {
     display: flex;
     align-items: center;
+    color: $text-color;
     justify-content: space-between;
-    background-color: #f5f5f5;
     padding-right: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 10px;
 }
 .profile{
@@ -56,10 +57,6 @@
 
 .button-container{
     display:flex
-}
-
-.icon-button:hover {
-    background-color: #f0f0f0;
 }
 
 .profile {

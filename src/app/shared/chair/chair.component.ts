@@ -23,7 +23,6 @@ export class ChairComponent{
 
   selectChair() {
     if (this.chair.status == 'maintenance') {
-      console.log(this.chair.status)
       this._snackBar.open("Lo sentimos, silla en mantenimiento", "Cerrar",{duration: 3000});
     } else if(this.chair.reserved == false) {
       this._snackBar.open("Lo sentimos, silla reservada", "Cerrar", {duration: 3000});

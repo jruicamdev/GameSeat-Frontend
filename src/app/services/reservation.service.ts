@@ -49,7 +49,7 @@ export class ReservationService {
     return this.http.get(`${environment.api_url}reservations/by/${userId}`);
   }
 
-  cancelReservation(reservationId: number): Observable<any> {
-    return this.http.post<any>(`${environment.api_url}/reservations${reservationId}/cancel`, {});
+  cancelReservation(reservationId: number, status: number): Observable<any> {
+    return this.http.post<any>(`${environment.api_url}reservations/cancel-or-confirm/${reservationId}`, status, { observe: 'body' });
   }
 }

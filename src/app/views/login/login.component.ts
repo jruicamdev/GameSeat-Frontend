@@ -7,13 +7,11 @@ import { AuthService, Credential, UserDto } from 'src/app/services/auth.service'
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { ToolbarComponent } from 'src/app/shared/toolbar/toolbar.component';
 import { UserService } from 'src/app/services/user.service';
-import { TranslateModule } from '@ngx-translate/core';
-
-
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { MatInputModule } from '@angular/material/input';
 
 export interface LogInForm {
   email: FormControl<string>;
@@ -28,7 +26,8 @@ export interface SignUpForm {
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [MatFormFieldModule,
+  imports: [
+    MatFormFieldModule,
     MatInputModule,
     MatIconModule,
     MatButtonModule,
@@ -37,7 +36,8 @@ export interface SignUpForm {
     NgIf,
     MatSnackBarModule,
     ToolbarComponent,
-  TranslateModule],
+    TranslateModule
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
   animations: [
@@ -59,12 +59,11 @@ export class LoginComponent {
     private _snackBar: MatSnackBar,
     private router: Router,
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private translate: TranslateService
   ) { }
   showLogin = true;
-
   hide = true;
-
 
   signUpForm: FormGroup<SignUpForm> = this.formBuilder.group({
     userName: this.formBuilder.control('', {
@@ -118,19 +117,24 @@ export class LoginComponent {
         email: this.signUpForm.value.email!,
         password: this.signUpForm.value.password!
       };
-      if(userDto.username == undefined || userDto.email == undefined || userDto.password == undefined){
+      if (userDto.username == undefined || userDto.email == undefined || userDto.password == undefined) {
         return;
       }
-      await this.userService.createUserAPI(userDto)
+      await this.userService.createUserAPI(userDto);
+      this.translate.get('SNACKBARS.SIGNUP_SUCCESS').subscribe((translatedMessage: string) => {
+        this._snackBar.open(translatedMessage, this.translate.instant('SNACKBARS.CLOSE'), { duration: 3000 });
+      });
       snackBarRef.afterDismissed().subscribe(() => {
         this.router.navigateByUrl('/reservations');
       });
     } catch (error) {
-      this._snackBar.open("Registro no valido", "Cerrar",{
-        duration: 2500,
-        verticalPosition: 'bottom',
-        horizontalPosition: 'center',
-      } );
+      this.translate.get('SNACKBARS.INVALID_REGISTRATION').subscribe((translatedMessage: string) => {
+        this._snackBar.open(translatedMessage, this.translate.instant('SNACKBARS.CLOSE'), {
+          duration: 2500,
+          verticalPosition: 'bottom',
+          horizontalPosition: 'center',
+        });
+      });
     }
   }
 
@@ -146,27 +150,32 @@ export class LoginComponent {
       const user = await this.authService.logInWithEmailAndPassword(credential);
       // Verificar si la autenticación fue realmente exitosa y el objeto usuario es válido
       if (user) {
-        console.log(user);
         // Snackbar de éxito
-        this._snackBar.open('Inicio de sesión exitoso', 'Cerrar', {
-          duration: 3000
+        this.translate.get('SNACKBARS.LOGIN_SUCCESS').subscribe((translatedMessage: string) => {
+          this._snackBar.open(translatedMessage, this.translate.instant('SNACKBARS.CLOSE'), {
+            duration: 3000
+          });
         });
 
         this.router.navigateByUrl('/reservations');
       } else {
         // Si no hay un objeto de usuario, asumir falla en el inicio de sesión
-        this._snackBar.open('Inicio de sesión fallido', 'Cerrar', {
-          duration: 3000
-        });      }
+        this.translate.get('SNACKBARS.LOGIN_FAILED').subscribe((translatedMessage: string) => {
+          this._snackBar.open(translatedMessage, this.translate.instant('SNACKBARS.CLOSE'), {
+            duration: 3000
+          });
+        });
+      }
     } catch (error) {
       console.error(error);
       // Snackbar de error
-      this._snackBar.open('Error al iniciar sesión', 'Cerrar', {
-        duration: 3000
+      this.translate.get('SNACKBARS.LOGIN_ERROR').subscribe((translatedMessage: string) => {
+        this._snackBar.open(translatedMessage, this.translate.instant('SNACKBARS.CLOSE'), {
+          duration: 3000
+        });
       });
     }
   }
-
 
   isEmailValidSignUp(): string | boolean {
     const control = this.signUpForm.get('email');
@@ -175,8 +184,8 @@ export class LoginComponent {
 
     if (isInvalid) {
       return control?.hasError('required')
-        ? 'This field is required'
-        : 'Enter a valid email';
+        ? this.translate.instant('SNACKBARS.FIELD_REQUIRED')
+        : this.translate.instant('SNACKBARS.ENTER_VALID_EMAIL');
     }
 
     return false;
@@ -189,11 +198,10 @@ export class LoginComponent {
 
     if (isInvalid) {
       return control?.hasError('required')
-        ? 'This field is required'
-        : 'Enter a valid email';
+        ? this.translate.instant('SNACKBARS.FIELD_REQUIRED')
+        : this.translate.instant('SNACKBARS.ENTER_VALID_EMAIL');
     }
 
     return false;
   }
-
 }

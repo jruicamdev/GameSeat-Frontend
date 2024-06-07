@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { ToolbarComponent } from 'src/app/shared/toolbar/toolbar.component';
@@ -10,9 +10,12 @@ import { ToolbarComponent } from 'src/app/shared/toolbar/toolbar.component';
   standalone: true,
   imports: [TranslateModule,ToolbarComponent]
 })
-export class CanceledComponent {
+export class CanceledComponent implements OnInit {
   constructor(private router: Router) {}
-  navigateToReservations() {
-    this.router.navigate(['/reservations']);
+  ngOnInit(): void {
+    // Redirige a la ruta específica después de 5 segundos
+    setTimeout(() => {
+      this.router.navigate(['/reservations']);
+    }, 5000);
   }
 }

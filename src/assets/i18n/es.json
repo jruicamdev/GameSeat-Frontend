@@ -120,7 +120,8 @@
         "RESERVATION_LINK": "Todavía estás a tiempo de hacer una. <a href='#'>Haz clic aquí para reservar una silla</a>",
         "NO_IMAGE_SELECTED": "No se ha seleccionado ninguna imagen",
         "CLOSE": "Cerrar",
-        "IMAGE_UPDATED": "Imagen actualizada"
+        "IMAGE_UPDATED": "Imagen actualizada",
+        "CANCEL": "Cancel"
     },
     "ADMIN": {
         "TITLE": "Panel Administrador",
@@ -141,5 +142,29 @@
             "PRICE_LABEL": "Precio",
             "SUBMIT": "Actualizar Precio"
         }
+    },
+    "SNACKBARS":{
+        "RESERVATION_CREATED_SUCCESS": "Reserva creada con éxito",
+        "CHAIR_ALREADY_RESERVED": "Esta silla ya está reservada a esta hora",
+        "ERROR_CREATING_RESERVATION": "Error al crear la reserva",
+        "START_END_TIME_SAME": "La hora de comienzo y final no pueden ser iguales",
+        "FORM_NOT_VALID": "Formulario no válido",
+        "CLOSE": "Cerrar" ,
+        "CHOOSE_IMAGE": "Elige una imagen",
+        "IMAGE_UPDATED": "Imagen actualizada con éxito",
+        "RESERVATION_CANCELLED": "Reserva {{id}} cancelada con éxito",
+        "ERROR_CANCELLING_RESERVATION": "Error al cancelar la reserva",
+        "SIGNUP_SUCCESS": "Registro exitoso",
+        "INVALID_REGISTRATION": "Registro no válido",
+        "LOGIN_SUCCESS": "Inicio de sesión exitoso",
+        "LOGIN_FAILED": "Inicio de sesión fallido",
+        "LOGIN_ERROR": "Error al iniciar sesión",
+        "FIELD_REQUIRED": "Este campo es obligatorio",
+        "ENTER_VALID_EMAIL": "Introduce un correo electrónico válido",
+        "NO_ACCESS": "No puedes acceder a esta página",
+        "CHAIRS_AVAILABLE": "Sillas {{chairNames}} disponibles",
+        "PRICE_UPDATED": "Precio actualizado con éxito",
+        "ERROR_UPDATING_PRICE": "Error al actualizar el precio",
+        "PAYMENT-SUCCESS" : "Pago verificado correctamente"
     }
 }

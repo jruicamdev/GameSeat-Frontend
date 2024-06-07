@@ -19,7 +19,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [MatIcon, MatButton, NgFor, MatExpansionModule, NgIf, MatPaginator, DatePipe, CommonModule, MatButtonModule,TranslateModule],
+  imports: [MatIcon, MatButton, NgFor, MatExpansionModule, NgIf, MatPaginator, DatePipe, CommonModule, MatButtonModule, TranslateModule],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
@@ -41,8 +41,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private _snackBar: MatSnackBar,
     private reservationService: ReservationService,
     private paymentService: PaymentsService,
-    private translate : TranslateService
-  ) { 
+    private translate: TranslateService
+  ) {
     this.translate.setDefaultLang(this.currentLanguage);
   }
 
@@ -69,9 +69,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   async getUserProfileImage() {
-    console.log('Antes');
     this.imageSrc = await this.userService.getUserImage();
-    console.log(this.imageSrc + 'Despues');
   }
 
   getAllProfileImages() {
@@ -80,15 +78,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   selectImage(image: string) {
     this.selectedImage = image;
-    console.log('Selected Image:', this.selectedImage);
   }
 
   sendSelectedImage() {
     if (this.selectedImage) {
-      console.log('Imagen seleccionada:', this.selectedImage);
       this.openConfirmationDialog();
     } else {
-      console.log('No se ha seleccionado ninguna imagen');
+      this.translate.get('SNACKBARS.CHOOSE_IMAGE').subscribe((translatedMessage: string) => {
+        this._snackBar.open(translatedMessage, this.translate.instant('SNACKBARS.CLOSE'), { duration: 2000 });
+      });
     }
   }
 
@@ -104,8 +102,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   async confirmSendSelectedImage() {
     if (this.selectedImage) {
-      console.log('Imagen seleccionada:', this.selectedImage);
-
       const user = this.userService.getUserProperties();
       const userApi = await this.userService.getUserAPI(user?.email);
 
@@ -113,13 +109,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
       const imageIndex = this.extractImageIndex(this.selectedImage);
 
       if (imageIndex !== -1) {
-        console.log(imageIndex);
         this.updateImage(userApi.id, imageIndex);
       } else {
         console.error('Índice de imagen no válido');
       }
     } else {
-      console.log('No se ha seleccionado ninguna imagen');
+      this.translate.get('SNACKBARS.CHOOSE_IMAGE').subscribe((translatedMessage: string) => {
+        this._snackBar.open(translatedMessage, this.translate.instant('SNACKBARS.CLOSE'), { duration: 2000 });
+      });
     }
   }
 
@@ -130,14 +127,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   private updateImage(userId: number, image: number): void {
-    console.log('Private' + image);
     this.userService.updateUserImage(userId, image).subscribe(
       response => {
         this.getUserProfileImage();
-        this._snackBar.open('Imagen Actualizada', 'Cerrar', { duration: 3000 });
+        this.translate.get('SNACKBARS.IMAGE_UPDATED').subscribe((translatedMessage: string) => {
+          this._snackBar.open(translatedMessage, this.translate.instant('SNACKBARS.CLOSE'), { duration: 3000 });
+        });
       },
       error => {
-        console.log(image);
         console.error('Error updating image', error);
       }
     );
@@ -151,7 +148,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
       data => {
         this.reservations = data;
         this.dataSource.data = this.reservations;
-        console.log('Reservations loaded:', this.reservations);
       },
       error => {
         console.error('Error al obtener las reservas', error);
@@ -159,12 +155,25 @@ export class ProfileComponent implements OnInit, OnDestroy {
     );
   }
 
-  getStripeURL(totalAmount: number | undefined, reservationId : number) {
+  async cancelReservation(id: number) {
+    try {
+      const data = await this.reservationService.cancelReservation(id, 1).toPromise();
+      this.translate.get('SNACKBARS.RESERVATION_CANCELLED', { id }).subscribe((translatedMessage: string) => {
+        this._snackBar.open(translatedMessage, this.translate.instant('SNACKBARS.CLOSE'), { duration: 3000 });
+      });
+      this.getReservationForUser();
+    } catch (error) {
+      this.translate.get('SNACKBARS.ERROR_CANCELLING_RESERVATION').subscribe((translatedMessage: string) => {
+        this._snackBar.open(translatedMessage, this.translate.instant('SNACKBARS.CLOSE'), { duration: 3000 });
+      });
+    }
+  }
+
+  getStripeURL(totalAmount: number | undefined, reservationId: number) {
     if (totalAmount == undefined) {
       throw console.error("totalAmount.empty");
     }
-    this.paymentService.getStripeURL(totalAmount,reservationId ).subscribe(response => {
-      console.log(response)
+    this.paymentService.getStripeURL(totalAmount, reservationId).subscribe(response => {
       if (response && response.url) {
         window.open(response.url); // Abre la URL de Stripe en una nueva pestaña
       } else {
