@@ -117,11 +117,12 @@
         "TIME_REMAINING": "Tiempo restante",
         "SECONDS": "segundos",
         "NO_RESERVATIONS": "No tienes reservas en este momento.",
-        "RESERVATION_LINK": "Todavía estás a tiempo de hacer una. <a href='#'>Haz clic aquí para reservar una silla</a>",
+        "RESERVATION_LINK": "Todavía estás a tiempo de hacer una.",
         "NO_IMAGE_SELECTED": "No se ha seleccionado ninguna imagen",
         "CLOSE": "Cerrar",
         "IMAGE_UPDATED": "Imagen actualizada",
-        "CANCEL": "Cancel"
+        "CANCEL": "Cancelar",
+        "CHAIR": "Silla"
     },
     "ADMIN": {
         "TITLE": "Panel Administrador",
@@ -165,6 +166,8 @@
         "CHAIRS_AVAILABLE": "Sillas {{chairNames}} disponibles",
         "PRICE_UPDATED": "Precio actualizado con éxito",
         "ERROR_UPDATING_PRICE": "Error al actualizar el precio",
-        "PAYMENT-SUCCESS" : "Pago verificado correctamente"
+        "PAYMENT-SUCCESS" : "Pago verificado correctamente",
+        "PAYMENT-FAILED" : "Pago verificado incorrect"
+
     }
 }
