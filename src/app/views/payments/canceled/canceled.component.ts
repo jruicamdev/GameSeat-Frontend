@@ -22,9 +22,6 @@ export class CanceledComponent implements OnInit {
     // Llama a tu API para verificar el estado del pago
     this.http.post(`${environment.api_url}payments/verify-payment`, { sessionId }).subscribe
     (response => {
-      this.translate.get('SNACKBARS.PAYMENT-FAILED').subscribe((translatedMessage: string) => {
-        this._snackBar.open(translatedMessage, this.translate.instant('PAYMENT.SUCCESS.BUTTON'), { duration: 3000 });
-      });
       setTimeout(() => {
         this.router.navigate(['/reservations']);
       }, 5000);

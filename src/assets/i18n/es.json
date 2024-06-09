@@ -90,16 +90,12 @@
         "BUTTON": "Reservar"
     },
     "PAYMENT": {
-        "SUCCESS": {
-            "TITLE": "Pago Exitoso",
-            "MESSAGE": "¡Gracias por tu pago! Tu reserva está confirmada.",
-            "BUTTON": "Volver a Reservas"
-        },
-        "CANCEL": {
-            "TITLE": "Pago Cancelado",
-            "MESSAGE": "Tu pago no fue exitoso. Por favor, inténtalo nuevamente.",
-            "BUTTON": "Volver a Reservas"
-        }
+        "SUCCESS-TITLE": "Pago Exitoso",
+        "SUCCESS-MESSAGE": "¡Gracias por tu pago! Tu reserva está confirmada.",
+        "SUCCESS-BUTTON": "Volver a Reservas",
+        "CANCEL-TITLE": "Pago Cancelado",
+        "CANCEL-MESSAGE": "Tu pago no fue exitoso. Por favor, inténtalo nuevamente.",
+        "CANCEL-BUTTON": "Volver a Reservas"
     },
     "PROFILE": {
         "SELECT_PROFILE_PICTURE": "Selecciona tu Foto de Perfil",
@@ -144,13 +140,13 @@
             "SUBMIT": "Actualizar Precio"
         }
     },
-    "SNACKBARS":{
+    "SNACKBARS": {
         "RESERVATION_CREATED_SUCCESS": "Reserva creada con éxito",
         "CHAIR_ALREADY_RESERVED": "Esta silla ya está reservada a esta hora",
         "ERROR_CREATING_RESERVATION": "Error al crear la reserva",
         "START_END_TIME_SAME": "La hora de comienzo y final no pueden ser iguales",
         "FORM_NOT_VALID": "Formulario no válido",
-        "CLOSE": "Cerrar" ,
+        "CLOSE": "Cerrar",
         "CHOOSE_IMAGE": "Elige una imagen",
         "IMAGE_UPDATED": "Imagen actualizada con éxito",
         "RESERVATION_CANCELLED": "Reserva {{id}} cancelada con éxito",
@@ -166,8 +162,7 @@
         "CHAIRS_AVAILABLE": "Sillas {{chairNames}} disponibles",
         "PRICE_UPDATED": "Precio actualizado con éxito",
         "ERROR_UPDATING_PRICE": "Error al actualizar el precio",
-        "PAYMENT-SUCCESS" : "Pago verificado correctamente",
-        "PAYMENT-FAILED" : "Pago verificado incorrect"
-
+        "PAYMENT-SUCCESS": "Pago verificado correctamente",
+        "PAYMENT-FAILED": "Pago verificado incorrect"
     }
 }

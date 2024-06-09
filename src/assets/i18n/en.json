@@ -90,16 +90,12 @@
         "BUTTON": "Reserve"
     },
     "PAYMENT": {
-        "SUCCESS": {
-            "TITLE": "Payment Successful",
-            "MESSAGE": "Thank you for your payment! Your reservation is confirmed.",
-            "BUTTON": "Back to Reservations"
-        },
-        "CANCEL": {
-            "TITLE": "Payment Cancelled",
-            "MESSAGE": "Your payment was not successful. Please try again.",
-            "BUTTON": "Back to Reservations"
-        }
+        "SUCCESS-TITLE": "Payment Successful",
+        "SUCCESS-MESSAGE": "Thank you for your payment! Your reservation is confirmed.",
+        "SUCCESS-BUTTON": "Back to Reservations",
+        "CANCEL-TITLE": "Payment Cancelled",
+        "CANCEL-MESSAGE": "Your payment was not successful. Please try again.",
+        "CANCEL-BUTTON": "Back to Reservations"
     },
     "PROFILE": {
         "SELECT_PROFILE_PICTURE": "Select Your Profile Picture",
