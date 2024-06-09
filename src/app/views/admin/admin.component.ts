@@ -17,6 +17,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ChairService } from 'src/app/services/chair.service';
 import { ReservationService } from 'src/app/services/reservation.service';
 import { UserService } from 'src/app/services/user.service';
+import { integerValidator } from 'src/app/shared/validators/custom-validor';
 
 @Component({
   selector: 'app-admin',
@@ -70,7 +71,7 @@ export class AdminComponent implements OnInit {
     });
     this.priceForm = this.fb.group({
       dayOfWeek: ['', Validators.required],
-      price: ['', [Validators.required, Validators.min(0)]]
+      price: ['', [Validators.required, Validators.min(0), integerValidator()]]
     });
     this.translate.setDefaultLang(this.currentLanguage);
   }

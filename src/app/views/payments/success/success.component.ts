@@ -24,7 +24,7 @@ export class SuccessComponent implements OnInit {
     this.http.post(`${environment.api_url}payments/verify-payment`, { sessionId }).subscribe
     (response => {
       this.translate.get('SNACKBARS.PAYMENT-SUCCESS').subscribe((translatedMessage: string) => {
-        this._snackBar.open(translatedMessage, this.translate.instant('SNACKBARS.CLOSE'), { duration: 3000 });
+        this._snackBar.open(translatedMessage, this.translate.instant('PAYMENT.SUCCESS.BUTTON'), { duration: 3000 });
       });
       setTimeout(() => {
         this.router.navigate(['/reservations']);

@@ -117,11 +117,12 @@
         "TIME_REMAINING": "Time remaining",
         "SECONDS": "seconds",
         "NO_RESERVATIONS": "You have no reservations at the moment.",
-        "RESERVATION_LINK": "You're still on time to make one. <a href='#'>Click here to reserve a chair</a>",
+        "RESERVATION_LINK": "You're still on time to make one.",
         "NO_IMAGE_SELECTED": "No image selected",
         "CLOSE": "Close",
         "IMAGE_UPDATED": "Image updated",
-        "CANCEL": "Cancel"
+        "CANCEL": "Cancel",
+        "CHAIR": "Chair"
     },
     "ADMIN": {
         "TITLE": "Admin Dashboard",
@@ -165,6 +166,7 @@
         "CHAIRS_AVAILABLE": "Chairs {{chairNames}} available",
         "PRICE_UPDATED": "Price updated successfully",
         "ERROR_UPDATING_PRICE": "Error updating the price",
-        "PAYMENT-SUCCESS" : "Payment Verified correctly"
+        "PAYMENT-SUCCESS" : "Payment Verified correctly",
+        "PAYMENT-FAILED" : "Payment Verified incorrect"
     }
 }

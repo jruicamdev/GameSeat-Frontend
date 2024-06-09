@@ -12,6 +12,7 @@ import { ToolbarComponent } from 'src/app/shared/toolbar/toolbar.component';
 import { UserService } from 'src/app/services/user.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatInputModule } from '@angular/material/input';
+import { UserCredential } from 'firebase/auth';
 
 export interface LogInForm {
   email: FormControl<string>;
@@ -147,9 +148,9 @@ export class LoginComponent {
     };
 
     try {
-      const user = await this.authService.logInWithEmailAndPassword(credential);
+      const user = await this.authService.logInWithEmailAndPassword(credential) as UserCredential;
       // Verificar si la autenticación fue realmente exitosa y el objeto usuario es válido
-      if (user) {
+      if (user && user.user) {
         // Snackbar de éxito
         this.translate.get('SNACKBARS.LOGIN_SUCCESS').subscribe((translatedMessage: string) => {
           this._snackBar.open(translatedMessage, this.translate.instant('SNACKBARS.CLOSE'), {

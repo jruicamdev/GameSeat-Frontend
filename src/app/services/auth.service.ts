@@ -38,7 +38,7 @@ export class AuthService {
 
   }
 
-  async logInWithEmailAndPassword(credential: Credential) {
+  async logInWithEmailAndPassword(credential: Credential) : Promise<UserCredential| unknown>{
     try {
       return await signInWithEmailAndPassword(
         this.auth,
